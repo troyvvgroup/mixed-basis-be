@@ -31,7 +31,7 @@ num_geom_file = geom_file[:-4]+"-numbered.xyz"
 Establish all functions
 """
 def mixed_basis_solver(idx, f, small_basis, big_basis, auto_frag, auto_cen, auto_hlist, big_basis_be,
-			heavy_atoms, heavy_atoms_ind, add_center, geom, numbered_geom_file, charge):
+			heavy_atoms, heavy_atoms_ind, add_center, geom, numbered_geom_file, charge, skip_unnecessary_frag_build = True):
 
 	print("Fragment number:", idx)
 
@@ -88,18 +88,35 @@ def mixed_basis_solver(idx, f, small_basis, big_basis, auto_frag, auto_cen, auto
 	for i in centers:
 		frag_nums.append(center_atoms.index(i))
 
+	# frag_nums contains the fragments that needs to be constructed / evaluated.
+	# reduce frag_mixed so that it only contains the fragments we need
+	# edge, edge_idx, center, center_idx is not set
+	if skip_unnecessary_frag_build:
+		frag_mixed.Nfrag = len(frag_nums)
+		frag_mixed.fsites = [frag_mixed.fsites[i] for i in frag_nums]
+		frag_mixed.centerf_idx = [frag_mixed.centerf_idx[i] for i in frag_nums]
+		frag_mixed.ebe_weight = [frag_mixed.ebe_weight[i] for i in frag_nums]
+	
 	print("BE1 list of center_atoms and corresponding fragments", center_atoms, frag_nums)
 
 	mybe = pbe(mf_mixed, frag_mixed, lo_method="lowdin", molecule=True, eri_file="eri_file_"+str(idx)+".h5")
 
 	energy_list = []
 	indexing = []
-	for idxx, x in enumerate(frag_nums):
-		tot_e, e_comp = be_func(mybe.pot, [mybe.Fobjs[x]], mybe.Nocc, solver='CCSD', enuc=mybe.enuc, 
-					frag_energy=True, eeval=True, hf_veff=mybe.hf_veff)
-		#print("tot_e, e_comp", tot_e, e_comp)
-		energy_list.append(tot_e)
-		indexing.append(centers[idxx])
+	if skip_unnecessary_frag_build:
+		for idxx in range(len(mybe.Fobjs)):
+			tot_e, e_comp = be_func(mybe.pot, [mybe.Fobjs[idxx]], mybe.Nocc, solver='CCSD', enuc=mybe.enuc, 
+						frag_energy=True, eeval=True, hf_veff=mybe.hf_veff)
+			#print("tot_e, e_comp", tot_e, e_comp)
+			energy_list.append(tot_e)
+			indexing.append(centers[idxx])
+	else:
+		for idxx, x in enumerate(frag_nums):
+			tot_e, e_comp = be_func(mybe.pot, [mybe.Fobjs[x]], mybe.Nocc, solver='CCSD', enuc=mybe.enuc, 
+						frag_energy=True, eeval=True, hf_veff=mybe.hf_veff)
+			#print("tot_e, e_comp", tot_e, e_comp)
+			energy_list.append(tot_e)
+			indexing.append(centers[idxx])
 	return energy_list #, indexing)
 
 def number_geom(geom, new):
