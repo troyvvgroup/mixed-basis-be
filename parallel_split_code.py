@@ -102,6 +102,7 @@ def mixed_basis_solver(idx, f, small_basis, big_basis, auto_frag, auto_cen, auto
 	mybe = pbe(mf_mixed, frag_mixed, lo_method="lowdin", molecule=True, eri_file="eri_file_"+str(idx)+".h5")
 
 	energy_list = []
+	ehf_list = []
 	indexing = []
 	if skip_unnecessary_frag_build:
 		for idxx in range(len(mybe.Fobjs)):
@@ -109,6 +110,7 @@ def mixed_basis_solver(idx, f, small_basis, big_basis, auto_frag, auto_cen, auto
 						frag_energy=True, eeval=True, hf_veff=mybe.hf_veff)
 			#print("tot_e, e_comp", tot_e, e_comp)
 			energy_list.append(tot_e)
+			ehf_list.append(mybe.Fobjs[idxx].ebe_hf)
 			indexing.append(centers[idxx])
 	else:
 		for idxx, x in enumerate(frag_nums):
@@ -116,8 +118,9 @@ def mixed_basis_solver(idx, f, small_basis, big_basis, auto_frag, auto_cen, auto
 						frag_energy=True, eeval=True, hf_veff=mybe.hf_veff)
 			#print("tot_e, e_comp", tot_e, e_comp)
 			energy_list.append(tot_e)
+			ehf_list.append(mybe.Fobjs[idxx].ebe_hf)
 			indexing.append(centers[idxx])
-	return energy_list #, indexing)
+	return energy_list, ehf_list, mybe.enuc+mybe.E_core-mybe.ek
 
 def number_geom(geom, new):
 	lines=[]
@@ -182,13 +185,15 @@ print("Atoms not a 'True' center", additional_center)
 Set up and run fragments in series or parallel
 """
 
-energies = []
+energies = []; ehfs = []; enucs = []
 if nprocs == 1:
 	for index, fragment in enumerate(au_frag):
-		energy = mixed_basis_solver(index, fragment, small_basis_inp, big_basis_inp, au_frag,
+		energy, ehf, enuc_core_k = mixed_basis_solver(index, fragment, small_basis_inp, big_basis_inp, au_frag,
 						au_cen, au_hlist, big_basis_be_inp, heavy_atom, heavy_atom_ind,
 						additional_center, geom_lines, num_geom_file, charge_inp)
 		energies.append(energy)
+		ehfs.append(ehf)
+		enucs.append(enuc_core_k)
 else:
 	pool_mix = Pool(nprocs)
 
@@ -200,12 +205,18 @@ else:
 			heavy_atom_ind, additional_center, geom_lines, num_geom_file, charge_inp])
 		results.append(result)
 
-	[energies.append(result.get()) for result in results]
+	[energies.append(result.get()[0]) for result in results]
+	[ehfs.append(result.get()[1]) for result in results]
+	[enucs.append(result.get()[2]) for result in results]
 	pool_mix.close()
 
-print("Energies are...", energies, flush=True)
+print("Correlation Energies are...", energies, flush=True)
+print("HF (elec.)  Energies are...", ehfs, flush=True)
+
 #print("Indexes are...", indexing)
 print("e_corr ", sum(sum(i) for i in energies), flush=True)
+assert np.all(np.isclose(enucs, enucs[0])), "Nuclear+Core energies from different split basis BE fragments differ." + str(enucs)
+print("ehf    ", sum(sum(i) for i in ehfs) + enucs[0], flush=True)
 #np.savetxt("Energies.csv",energies)
 #np.savetxt("Indexes.csv",indexing)
 
