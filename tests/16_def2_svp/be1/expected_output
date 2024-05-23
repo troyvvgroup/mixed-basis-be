@@ -1,0 +1,865 @@
+Initially fragmenting the structure
+
+Fragment sites
+--------------------------
+Fragment |   Center | Edges 
+--------------------------
+      0  |      C1  |   *H17    *H18  
+      1  |      C2  |   *H19  
+      2  |      C3  |   *H20  
+      3  |      C4  |   *H21  
+      4  |      C5  |   *H22  
+      5  |      C6  |   *H23  
+      6  |      C7  |   *H24  
+      7  |      C8  |   *H25  
+      8  |      C9  |   *H26  
+      9  |     C10  |   *H27  
+     10  |     C11  |   *H28  
+     11  |     C12  |   *H29  
+     12  |     C13  |   *H30  
+     13  |     C14  |   *H31  
+     14  |     C15  |   *H32  
+     15  |     C16  |   *H33    *H34  
+--------------------------
+ No. of fragments :  16
+*H : Center H atoms (printed as Edges above.)
+
+Big Basis Regions: All Fragments [[0], [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12], [13], [14], [15]]
+Big Basis Regions: 'True' Centers [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+Big Basis Regions: Hydrogen List [[16, 17], [18], [19], [20], [21], [22], [23], [24], [25], [26], [27], [28], [29], [30], [31], [32, 33], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []]
+All Heavy Atoms and Indices ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10', 'C11', 'C12', 'C13', 'C14', 'C15', 'C16'] [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+Atoms not a 'True' center []
+Fragment number: 6
+Basis library for frag  6 :  {'C': 'sto-3g', 'H': 'sto-3g', 'C7': 'def2-svp', 'H24': 'def2-svp'}
+All centers for fragment  6 :  ['C7']
+Atoms in fragment 6 :  ['C7', 'H24']
+Running HF...
+converged SCF energy = -609.07544785
+
+Fragment sites
+--------------------------
+Fragment |   Center | Edges 
+--------------------------
+      0  |      C1  |   *H17    *H18  
+      1  |      C2  |   *H19  
+      2  |      C3  |   *H20  
+      3  |      C4  |   *H21  
+      4  |      C5  |   *H22  
+      5  |      C6  |   *H23  
+      6  |      C7  |   *H24  
+      7  |      C8  |   *H25  
+      8  |      C9  |   *H26  
+      9  |     C10  |   *H27  
+     10  |     C11  |   *H28  
+     11  |     C12  |   *H29  
+     12  |     C13  |   *H30  
+     13  |     C14  |   *H31  
+     14  |     C15  |   *H32  
+     15  |     C16  |   *H33    *H34  
+--------------------------
+ No. of fragments :  16
+*H : Center H atoms (printed as Edges above.)
+
+Fragment number: 7
+Basis library for frag  7 :  {'C': 'sto-3g', 'H': 'sto-3g', 'C8': 'def2-svp', 'H25': 'def2-svp'}
+All centers for fragment  7 :  ['C8']
+Atoms in fragment 7 :  ['C8', 'H25']
+Running HF...
+converged SCF energy = -609.075439621076
+
+Fragment sites
+--------------------------
+Fragment |   Center | Edges 
+--------------------------
+      0  |      C1  |   *H17    *H18  
+      1  |      C2  |   *H19  
+      2  |      C3  |   *H20  
+      3  |      C4  |   *H21  
+      4  |      C5  |   *H22  
+      5  |      C6  |   *H23  
+      6  |      C7  |   *H24  
+      7  |      C8  |   *H25  
+      8  |      C9  |   *H26  
+      9  |     C10  |   *H27  
+     10  |     C11  |   *H28  
+     11  |     C12  |   *H29  
+     12  |     C13  |   *H30  
+     13  |     C14  |   *H31  
+     14  |     C15  |   *H32  
+     15  |     C16  |   *H33    *H34  
+--------------------------
+ No. of fragments :  16
+*H : Center H atoms (printed as Edges above.)
+
+Fragment number: 2
+Basis library for frag  2 :  {'C': 'sto-3g', 'H': 'sto-3g', 'C3': 'def2-svp', 'H20': 'def2-svp'}
+All centers for fragment  2 :  ['C3']
+Atoms in fragment 2 :  ['C3', 'H20']
+Running HF...
+converged SCF energy = -609.074972932336
+
+Fragment sites
+--------------------------
+Fragment |   Center | Edges 
+--------------------------
+      0  |      C1  |   *H17    *H18  
+      1  |      C2  |   *H19  
+      2  |      C3  |   *H20  
+      3  |      C4  |   *H21  
+      4  |      C5  |   *H22  
+      5  |      C6  |   *H23  
+      6  |      C7  |   *H24  
+      7  |      C8  |   *H25  
+      8  |      C9  |   *H26  
+      9  |     C10  |   *H27  
+     10  |     C11  |   *H28  
+     11  |     C12  |   *H29  
+     12  |     C13  |   *H30  
+     13  |     C14  |   *H31  
+     14  |     C15  |   *H32  
+     15  |     C16  |   *H33    *H34  
+--------------------------
+ No. of fragments :  16
+*H : Center H atoms (printed as Edges above.)
+
+Fragment number: 1
+Basis library for frag  1 :  {'C': 'sto-3g', 'H': 'sto-3g', 'C2': 'def2-svp', 'H19': 'def2-svp'}
+All centers for fragment  1 :  ['C2']
+Atoms in fragment 1 :  ['C2', 'H19']
+Running HF...
+converged SCF energy = -609.074180897172
+
+Fragment sites
+--------------------------
+Fragment |   Center | Edges 
+--------------------------
+      0  |      C1  |   *H17    *H18  
+      1  |      C2  |   *H19  
+      2  |      C3  |   *H20  
+      3  |      C4  |   *H21  
+      4  |      C5  |   *H22  
+      5  |      C6  |   *H23  
+      6  |      C7  |   *H24  
+      7  |      C8  |   *H25  
+      8  |      C9  |   *H26  
+      9  |     C10  |   *H27  
+     10  |     C11  |   *H28  
+     11  |     C12  |   *H29  
+     12  |     C13  |   *H30  
+     13  |     C14  |   *H31  
+     14  |     C15  |   *H32  
+     15  |     C16  |   *H33    *H34  
+--------------------------
+ No. of fragments :  16
+*H : Center H atoms (printed as Edges above.)
+
+Fragment number: 5
+Basis library for frag  5 :  {'C': 'sto-3g', 'H': 'sto-3g', 'C6': 'def2-svp', 'H23': 'def2-svp'}
+All centers for fragment  5 :  ['C6']
+Atoms in fragment 5 :  ['C6', 'H23']
+Running HF...
+converged SCF energy = -609.075381887773
+
+Fragment sites
+--------------------------
+Fragment |   Center | Edges 
+--------------------------
+      0  |      C1  |   *H17    *H18  
+      1  |      C2  |   *H19  
+      2  |      C3  |   *H20  
+      3  |      C4  |   *H21  
+      4  |      C5  |   *H22  
+      5  |      C6  |   *H23  
+      6  |      C7  |   *H24  
+      7  |      C8  |   *H25  
+      8  |      C9  |   *H26  
+      9  |     C10  |   *H27  
+     10  |     C11  |   *H28  
+     11  |     C12  |   *H29  
+     12  |     C13  |   *H30  
+     13  |     C14  |   *H31  
+     14  |     C15  |   *H32  
+     15  |     C16  |   *H33    *H34  
+--------------------------
+ No. of fragments :  16
+*H : Center H atoms (printed as Edges above.)
+
+Fragment number: 3
+Basis library for frag  3 :  {'C': 'sto-3g', 'H': 'sto-3g', 'C4': 'def2-svp', 'H21': 'def2-svp'}
+All centers for fragment  3 :  ['C4']
+Atoms in fragment 3 :  ['C4', 'H21']
+Running HF...
+converged SCF energy = -609.075262359272
+
+Fragment sites
+--------------------------
+Fragment |   Center | Edges 
+--------------------------
+      0  |      C1  |   *H17    *H18  
+      1  |      C2  |   *H19  
+      2  |      C3  |   *H20  
+      3  |      C4  |   *H21  
+      4  |      C5  |   *H22  
+      5  |      C6  |   *H23  
+      6  |      C7  |   *H24  
+      7  |      C8  |   *H25  
+      8  |      C9  |   *H26  
+      9  |     C10  |   *H27  
+     10  |     C11  |   *H28  
+     11  |     C12  |   *H29  
+     12  |     C13  |   *H30  
+     13  |     C14  |   *H31  
+     14  |     C15  |   *H32  
+     15  |     C16  |   *H33    *H34  
+--------------------------
+ No. of fragments :  16
+*H : Center H atoms (printed as Edges above.)
+
+Fragment number: 4
+Basis library for frag  4 :  {'C': 'sto-3g', 'H': 'sto-3g', 'C5': 'def2-svp', 'H22': 'def2-svp'}
+All centers for fragment  4 :  ['C5']
+Atoms in fragment 4 :  ['C5', 'H22']
+Running HF...
+converged SCF energy = -609.075375882317
+
+Fragment sites
+--------------------------
+Fragment |   Center | Edges 
+--------------------------
+      0  |      C1  |   *H17    *H18  
+      1  |      C2  |   *H19  
+      2  |      C3  |   *H20  
+      3  |      C4  |   *H21  
+      4  |      C5  |   *H22  
+      5  |      C6  |   *H23  
+      6  |      C7  |   *H24  
+      7  |      C8  |   *H25  
+      8  |      C9  |   *H26  
+      9  |     C10  |   *H27  
+     10  |     C11  |   *H28  
+     11  |     C12  |   *H29  
+     12  |     C13  |   *H30  
+     13  |     C14  |   *H31  
+     14  |     C15  |   *H32  
+     15  |     C16  |   *H33    *H34  
+--------------------------
+ No. of fragments :  16
+*H : Center H atoms (printed as Edges above.)
+
+BE1 list of center_atoms and corresponding fragments ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10', 'C11', 'C12', 'C13', 'C14', 'C15', 'C16'] [6]
+-----------------------------------------------------------
+  MMM     MMM    OOOO    LL           BBBBBBB    EEEEEEE 
+  M MM   MM M   OO  OO   LL           BB     B   EE      
+  M  MM MM  M  OO    OO  LL           BB     B   EE      
+  M   MMM   M  OO    OO  LL     ===   BBBBBBB    EEEEEEE 
+  M         M  OO    OO  LL           BB     B   EE      
+  M         M   OO  OO   LL           BB     B   EE      
+  M         M    OOOO    LLLLLL       BBBBBBB    EEEEEEE 
+
+            MOLECULAR BOOTSTRAP EMBEDDING
+            BEn =  be1
+-----------------------------------------------------------
+
+Time to get full-system Fock matrix:  0.000102996826171875
+Fragment number: 0
+Basis library for frag  0 :  {'C': 'sto-3g', 'H': 'sto-3g', 'C1': 'def2-svp', 'H17': 'def2-svp', 'H18': 'def2-svp'}
+All centers for fragment  0 :  ['C1']
+Atoms in fragment 0 :  ['C1', 'H17', 'H18']
+Running HF...
+converged SCF energy = -609.086260796672
+
+Fragment sites
+--------------------------
+Fragment |   Center | Edges 
+--------------------------
+      0  |      C1  |   *H17    *H18  
+      1  |      C2  |   *H19  
+      2  |      C3  |   *H20  
+      3  |      C4  |   *H21  
+      4  |      C5  |   *H22  
+      5  |      C6  |   *H23  
+      6  |      C7  |   *H24  
+      7  |      C8  |   *H25  
+      8  |      C9  |   *H26  
+      9  |     C10  |   *H27  
+     10  |     C11  |   *H28  
+     11  |     C12  |   *H29  
+     12  |     C13  |   *H30  
+     13  |     C14  |   *H31  
+     14  |     C15  |   *H32  
+     15  |     C16  |   *H33    *H34  
+--------------------------
+ No. of fragments :  16
+*H : Center H atoms (printed as Edges above.)
+
+Time to localize: 0.04120826721191406
+BE1 list of center_atoms and corresponding fragments ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10', 'C11', 'C12', 'C13', 'C14', 'C15', 'C16'] [7]
+-----------------------------------------------------------
+  MMM     MMM    OOOO    LL           BBBBBBB    EEEEEEE 
+  M MM   MM M   OO  OO   LL           BB     B   EE      
+  M  MM MM  M  OO    OO  LL           BB     B   EE      
+  M   MMM   M  OO    OO  LL     ===   BBBBBBB    EEEEEEE 
+  M         M  OO    OO  LL           BB     B   EE      
+  M         M   OO  OO   LL           BB     B   EE      
+  M         M    OOOO    LLLLLL       BBBBBBB    EEEEEEE 
+
+            MOLECULAR BOOTSTRAP EMBEDDING
+            BEn =  be1
+-----------------------------------------------------------
+
+Time to get full-system Fock matrix:  9.298324584960938e-05
+Time to localize: 0.04176688194274902
+BE1 list of center_atoms and corresponding fragments ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10', 'C11', 'C12', 'C13', 'C14', 'C15', 'C16'] [2]
+-----------------------------------------------------------
+  MMM     MMM    OOOO    LL           BBBBBBB    EEEEEEE 
+  M MM   MM M   OO  OO   LL           BB     B   EE      
+  M  MM MM  M  OO    OO  LL           BB     B   EE      
+  M   MMM   M  OO    OO  LL     ===   BBBBBBB    EEEEEEE 
+  M         M  OO    OO  LL           BB     B   EE      
+  M         M   OO  OO   LL           BB     B   EE      
+  M         M    OOOO    LLLLLL       BBBBBBB    EEEEEEE 
+
+            MOLECULAR BOOTSTRAP EMBEDDING
+            BEn =  be1
+-----------------------------------------------------------
+
+Time to get full-system Fock matrix:  9.703636169433594e-05
+BE1 list of center_atoms and corresponding fragments ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10', 'C11', 'C12', 'C13', 'C14', 'C15', 'C16'] [1]
+-----------------------------------------------------------
+  MMM     MMM    OOOO    LL           BBBBBBB    EEEEEEE 
+  M MM   MM M   OO  OO   LL           BB     B   EE      
+  M  MM MM  M  OO    OO  LL           BB     B   EE      
+  M   MMM   M  OO    OO  LL     ===   BBBBBBB    EEEEEEE 
+  M         M  OO    OO  LL           BB     B   EE      
+  M         M   OO  OO   LL           BB     B   EE      
+  M         M    OOOO    LLLLLL       BBBBBBB    EEEEEEE 
+
+            MOLECULAR BOOTSTRAP EMBEDDING
+            BEn =  be1
+-----------------------------------------------------------
+
+Time to get full-system Fock matrix:  0.00010347366333007812
+BE1 list of center_atoms and corresponding fragments ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10', 'C11', 'C12', 'C13', 'C14', 'C15', 'C16'] [5]
+-----------------------------------------------------------
+  MMM     MMM    OOOO    LL           BBBBBBB    EEEEEEE 
+  M MM   MM M   OO  OO   LL           BB     B   EE      
+  M  MM MM  M  OO    OO  LL           BB     B   EE      
+  M   MMM   M  OO    OO  LL     ===   BBBBBBB    EEEEEEE 
+  M         M  OO    OO  LL           BB     B   EE      
+  M         M   OO  OO   LL           BB     B   EE      
+  M         M    OOOO    LLLLLL       BBBBBBB    EEEEEEE 
+
+            MOLECULAR BOOTSTRAP EMBEDDING
+            BEn =  be1
+-----------------------------------------------------------
+
+BE1 list of center_atoms and corresponding fragments ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10', 'C11', 'C12', 'C13', 'C14', 'C15', 'C16'] [3]
+-----------------------------------------------------------
+  MMM     MMM    OOOO    LL           BBBBBBB    EEEEEEE 
+  M MM   MM M   OO  OO   LL           BB     B   EE      
+  M  MM MM  M  OO    OO  LL           BB     B   EE      
+  M   MMM   M  OO    OO  LL     ===   BBBBBBB    EEEEEEE 
+  M         M  OO    OO  LL           BB     B   EE      
+  M         M   OO  OO   LL           BB     B   EE      
+  M         M    OOOO    LLLLLL       BBBBBBB    EEEEEEE 
+
+            MOLECULAR BOOTSTRAP EMBEDDING
+            BEn =  be1
+-----------------------------------------------------------
+
+BE1 list of center_atoms and corresponding fragments ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10', 'C11', 'C12', 'C13', 'C14', 'C15', 'C16'] [4]
+-----------------------------------------------------------
+  MMM     MMM    OOOO    LL           BBBBBBB    EEEEEEE 
+  M MM   MM M   OO  OO   LL           BB     B   EE      
+  M  MM MM  M  OO    OO  LL           BB     B   EE      
+  M   MMM   M  OO    OO  LL     ===   BBBBBBB    EEEEEEE 
+  M         M  OO    OO  LL           BB     B   EE      
+  M         M   OO  OO   LL           BB     B   EE      
+  M         M    OOOO    LLLLLL       BBBBBBB    EEEEEEE 
+
+            MOLECULAR BOOTSTRAP EMBEDDING
+            BEn =  be1
+-----------------------------------------------------------
+
+Time to get full-system Fock matrix:  0.00010752677917480469
+Time to get full-system Fock matrix:  0.00010418891906738281
+Time to get full-system Fock matrix:  0.00010132789611816406
+Time to localize: 0.16095590591430664
+Time to localize: 0.09220600128173828
+Time to localize: 0.04140520095825195
+Time to localize: 0.04979825019836426
+Time to localize: 0.04260110855102539
+BE1 list of center_atoms and corresponding fragments ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10', 'C11', 'C12', 'C13', 'C14', 'C15', 'C16'] [0]
+-----------------------------------------------------------
+  MMM     MMM    OOOO    LL           BBBBBBB    EEEEEEE 
+  M MM   MM M   OO  OO   LL           BB     B   EE      
+  M  MM MM  M  OO    OO  LL           BB     B   EE      
+  M   MMM   M  OO    OO  LL     ===   BBBBBBB    EEEEEEE 
+  M         M  OO    OO  LL           BB     B   EE      
+  M         M   OO  OO   LL           BB     B   EE      
+  M         M    OOOO    LLLLLL       BBBBBBB    EEEEEEE 
+
+            MOLECULAR BOOTSTRAP EMBEDDING
+            BEn =  be1
+-----------------------------------------------------------
+
+Time to get full-system Fock matrix:  0.00010228157043457031
+Time to localize: 0.021862268447875977
+HF-in-HF error                 :  -1.3256e+03 Ha
+WARNING!!! Large HF-in-HF energy error
+
+Time to initialize HF:  11.339803457260132
+HF-in-HF error                 :  -1.3260e+03 Ha
+WARNING!!! Large HF-in-HF energy error
+
+Time to initialize HF:  11.65447211265564
+HF-in-HF error                 :  -1.3300e+03 Ha
+WARNING!!! Large HF-in-HF energy error
+
+Time to initialize HF:  11.167620182037354
+HF-in-HF error                 :  -1.3280e+03 Ha
+WARNING!!! Large HF-in-HF energy error
+
+Time to initialize HF:  11.279285192489624
+HF-in-HF error                 :  -1.3268e+03 Ha
+WARNING!!! Large HF-in-HF energy error
+
+Time to initialize HF:  11.349638938903809
+HF-in-HF error                 :  -1.3327e+03 Ha
+WARNING!!! Large HF-in-HF energy error
+
+Time to initialize HF:  11.726652383804321
+HF-in-HF error                 :  -1.3376e+03 Ha
+WARNING!!! Large HF-in-HF energy error
+
+Time to initialize HF:  11.764309406280518
+HF-in-HF error                 :  -1.3409e+03 Ha
+WARNING!!! Large HF-in-HF energy error
+
+Time to initialize HF:  11.84588074684143
+Time to run all fragments:  3.4332807064056396
+Time to run all fragments:  4.206187963485718
+Time to run all fragments:  3.8437654972076416
+Time to run all fragments:  4.119811058044434
+Time to run all fragments:  3.580331563949585
+Time to run all fragments:  3.885043144226074
+Time to run all fragments:  4.233691930770874
+Time to run all fragments:  4.8423473834991455
+Fragment number: 9
+Basis library for frag  9 :  {'C': 'sto-3g', 'H': 'sto-3g', 'C10': 'def2-svp', 'H27': 'def2-svp'}
+All centers for fragment  9 :  ['C10']
+Atoms in fragment 9 :  ['C10', 'H27']
+Running HF...
+converged SCF energy = -609.075447854911
+
+Fragment sites
+--------------------------
+Fragment |   Center | Edges 
+--------------------------
+      0  |      C1  |   *H17    *H18  
+      1  |      C2  |   *H19  
+      2  |      C3  |   *H20  
+      3  |      C4  |   *H21  
+      4  |      C5  |   *H22  
+      5  |      C6  |   *H23  
+      6  |      C7  |   *H24  
+      7  |      C8  |   *H25  
+      8  |      C9  |   *H26  
+      9  |     C10  |   *H27  
+     10  |     C11  |   *H28  
+     11  |     C12  |   *H29  
+     12  |     C13  |   *H30  
+     13  |     C14  |   *H31  
+     14  |     C15  |   *H32  
+     15  |     C16  |   *H33    *H34  
+--------------------------
+ No. of fragments :  16
+*H : Center H atoms (printed as Edges above.)
+
+Fragment number: 11
+Basis library for frag  11 :  {'C': 'sto-3g', 'H': 'sto-3g', 'C12': 'def2-svp', 'H29': 'def2-svp'}
+All centers for fragment  11 :  ['C12']
+Atoms in fragment 11 :  ['C12', 'H29']
+Running HF...
+converged SCF energy = -609.075375852034
+
+Fragment sites
+--------------------------
+Fragment |   Center | Edges 
+--------------------------
+      0  |      C1  |   *H17    *H18  
+      1  |      C2  |   *H19  
+      2  |      C3  |   *H20  
+      3  |      C4  |   *H21  
+      4  |      C5  |   *H22  
+      5  |      C6  |   *H23  
+      6  |      C7  |   *H24  
+      7  |      C8  |   *H25  
+      8  |      C9  |   *H26  
+      9  |     C10  |   *H27  
+     10  |     C11  |   *H28  
+     11  |     C12  |   *H29  
+     12  |     C13  |   *H30  
+     13  |     C14  |   *H31  
+     14  |     C15  |   *H32  
+     15  |     C16  |   *H33    *H34  
+--------------------------
+ No. of fragments :  16
+*H : Center H atoms (printed as Edges above.)
+
+Fragment number: 10
+Basis library for frag  10 :  {'C': 'sto-3g', 'H': 'sto-3g', 'C11': 'def2-svp', 'H28': 'def2-svp'}
+All centers for fragment  10 :  ['C11']
+Atoms in fragment 10 :  ['C11', 'H28']
+Running HF...
+converged SCF energy = -609.075381861507
+
+Fragment sites
+--------------------------
+Fragment |   Center | Edges 
+--------------------------
+      0  |      C1  |   *H17    *H18  
+      1  |      C2  |   *H19  
+      2  |      C3  |   *H20  
+      3  |      C4  |   *H21  
+      4  |      C5  |   *H22  
+      5  |      C6  |   *H23  
+      6  |      C7  |   *H24  
+      7  |      C8  |   *H25  
+      8  |      C9  |   *H26  
+      9  |     C10  |   *H27  
+     10  |     C11  |   *H28  
+     11  |     C12  |   *H29  
+     12  |     C13  |   *H30  
+     13  |     C14  |   *H31  
+     14  |     C15  |   *H32  
+     15  |     C16  |   *H33    *H34  
+--------------------------
+ No. of fragments :  16
+*H : Center H atoms (printed as Edges above.)
+
+BE1 list of center_atoms and corresponding fragments ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10', 'C11', 'C12', 'C13', 'C14', 'C15', 'C16'] [9]
+-----------------------------------------------------------
+  MMM     MMM    OOOO    LL           BBBBBBB    EEEEEEE 
+  M MM   MM M   OO  OO   LL           BB     B   EE      
+  M  MM MM  M  OO    OO  LL           BB     B   EE      
+  M   MMM   M  OO    OO  LL     ===   BBBBBBB    EEEEEEE 
+  M         M  OO    OO  LL           BB     B   EE      
+  M         M   OO  OO   LL           BB     B   EE      
+  M         M    OOOO    LLLLLL       BBBBBBB    EEEEEEE 
+
+            MOLECULAR BOOTSTRAP EMBEDDING
+            BEn =  be1
+-----------------------------------------------------------
+
+Time to get full-system Fock matrix:  9.417533874511719e-05
+BE1 list of center_atoms and corresponding fragments ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10', 'C11', 'C12', 'C13', 'C14', 'C15', 'C16'] [11]
+-----------------------------------------------------------
+  MMM     MMM    OOOO    LL           BBBBBBB    EEEEEEE 
+  M MM   MM M   OO  OO   LL           BB     B   EE      
+  M  MM MM  M  OO    OO  LL           BB     B   EE      
+  M   MMM   M  OO    OO  LL     ===   BBBBBBB    EEEEEEE 
+  M         M  OO    OO  LL           BB     B   EE      
+  M         M   OO  OO   LL           BB     B   EE      
+  M         M    OOOO    LLLLLL       BBBBBBB    EEEEEEE 
+
+            MOLECULAR BOOTSTRAP EMBEDDING
+            BEn =  be1
+-----------------------------------------------------------
+
+Time to localize: 0.011008739471435547
+Time to get full-system Fock matrix:  9.560585021972656e-05
+Time to localize: 0.015630006790161133
+BE1 list of center_atoms and corresponding fragments ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10', 'C11', 'C12', 'C13', 'C14', 'C15', 'C16'] [10]
+-----------------------------------------------------------
+  MMM     MMM    OOOO    LL           BBBBBBB    EEEEEEE 
+  M MM   MM M   OO  OO   LL           BB     B   EE      
+  M  MM MM  M  OO    OO  LL           BB     B   EE      
+  M   MMM   M  OO    OO  LL     ===   BBBBBBB    EEEEEEE 
+  M         M  OO    OO  LL           BB     B   EE      
+  M         M   OO  OO   LL           BB     B   EE      
+  M         M    OOOO    LLLLLL       BBBBBBB    EEEEEEE 
+
+            MOLECULAR BOOTSTRAP EMBEDDING
+            BEn =  be1
+-----------------------------------------------------------
+
+Time to get full-system Fock matrix:  0.00010180473327636719
+Time to localize: 0.012302160263061523
+Fragment number: 8
+Basis library for frag  8 :  {'C': 'sto-3g', 'H': 'sto-3g', 'C9': 'def2-svp', 'H26': 'def2-svp'}
+All centers for fragment  8 :  ['C9']
+Atoms in fragment 8 :  ['C9', 'H26']
+Running HF...
+converged SCF energy = -609.075439622478
+
+Fragment sites
+--------------------------
+Fragment |   Center | Edges 
+--------------------------
+      0  |      C1  |   *H17    *H18  
+      1  |      C2  |   *H19  
+      2  |      C3  |   *H20  
+      3  |      C4  |   *H21  
+      4  |      C5  |   *H22  
+      5  |      C6  |   *H23  
+      6  |      C7  |   *H24  
+      7  |      C8  |   *H25  
+      8  |      C9  |   *H26  
+      9  |     C10  |   *H27  
+     10  |     C11  |   *H28  
+     11  |     C12  |   *H29  
+     12  |     C13  |   *H30  
+     13  |     C14  |   *H31  
+     14  |     C15  |   *H32  
+     15  |     C16  |   *H33    *H34  
+--------------------------
+ No. of fragments :  16
+*H : Center H atoms (printed as Edges above.)
+
+BE1 list of center_atoms and corresponding fragments ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10', 'C11', 'C12', 'C13', 'C14', 'C15', 'C16'] [8]
+-----------------------------------------------------------
+  MMM     MMM    OOOO    LL           BBBBBBB    EEEEEEE 
+  M MM   MM M   OO  OO   LL           BB     B   EE      
+  M  MM MM  M  OO    OO  LL           BB     B   EE      
+  M   MMM   M  OO    OO  LL     ===   BBBBBBB    EEEEEEE 
+  M         M  OO    OO  LL           BB     B   EE      
+  M         M   OO  OO   LL           BB     B   EE      
+  M         M    OOOO    LLLLLL       BBBBBBB    EEEEEEE 
+
+            MOLECULAR BOOTSTRAP EMBEDDING
+            BEn =  be1
+-----------------------------------------------------------
+
+Time to get full-system Fock matrix:  9.107589721679688e-05
+Time to localize: 0.03429579734802246
+Fragment number: 13
+Basis library for frag  13 :  {'C': 'sto-3g', 'H': 'sto-3g', 'C14': 'def2-svp', 'H31': 'def2-svp'}
+All centers for fragment  13 :  ['C14']
+Atoms in fragment 13 :  ['C14', 'H31']
+Running HF...
+converged SCF energy = -609.074972924918
+
+Fragment sites
+--------------------------
+Fragment |   Center | Edges 
+--------------------------
+      0  |      C1  |   *H17    *H18  
+      1  |      C2  |   *H19  
+      2  |      C3  |   *H20  
+      3  |      C4  |   *H21  
+      4  |      C5  |   *H22  
+      5  |      C6  |   *H23  
+      6  |      C7  |   *H24  
+      7  |      C8  |   *H25  
+      8  |      C9  |   *H26  
+      9  |     C10  |   *H27  
+     10  |     C11  |   *H28  
+     11  |     C12  |   *H29  
+     12  |     C13  |   *H30  
+     13  |     C14  |   *H31  
+     14  |     C15  |   *H32  
+     15  |     C16  |   *H33    *H34  
+--------------------------
+ No. of fragments :  16
+*H : Center H atoms (printed as Edges above.)
+
+HF-in-HF error                 :  -1.3268e+03 Ha
+WARNING!!! Large HF-in-HF energy error
+
+Time to initialize HF:  1.191284418106079
+BE1 list of center_atoms and corresponding fragments ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10', 'C11', 'C12', 'C13', 'C14', 'C15', 'C16'] [13]
+-----------------------------------------------------------
+  MMM     MMM    OOOO    LL           BBBBBBB    EEEEEEE 
+  M MM   MM M   OO  OO   LL           BB     B   EE      
+  M  MM MM  M  OO    OO  LL           BB     B   EE      
+  M   MMM   M  OO    OO  LL     ===   BBBBBBB    EEEEEEE 
+  M         M  OO    OO  LL           BB     B   EE      
+  M         M   OO  OO   LL           BB     B   EE      
+  M         M    OOOO    LLLLLL       BBBBBBB    EEEEEEE 
+
+            MOLECULAR BOOTSTRAP EMBEDDING
+            BEn =  be1
+-----------------------------------------------------------
+
+Time to get full-system Fock matrix:  9.942054748535156e-05
+Time to localize: 0.013702869415283203
+Fragment number: 12
+Basis library for frag  12 :  {'C': 'sto-3g', 'H': 'sto-3g', 'C13': 'def2-svp', 'H30': 'def2-svp'}
+All centers for fragment  12 :  ['C13']
+Atoms in fragment 12 :  ['C13', 'H30']
+Running HF...
+converged SCF energy = -609.075262353829
+
+Fragment sites
+--------------------------
+Fragment |   Center | Edges 
+--------------------------
+      0  |      C1  |   *H17    *H18  
+      1  |      C2  |   *H19  
+      2  |      C3  |   *H20  
+      3  |      C4  |   *H21  
+      4  |      C5  |   *H22  
+      5  |      C6  |   *H23  
+      6  |      C7  |   *H24  
+      7  |      C8  |   *H25  
+      8  |      C9  |   *H26  
+      9  |     C10  |   *H27  
+     10  |     C11  |   *H28  
+     11  |     C12  |   *H29  
+     12  |     C13  |   *H30  
+     13  |     C14  |   *H31  
+     14  |     C15  |   *H32  
+     15  |     C16  |   *H33    *H34  
+--------------------------
+ No. of fragments :  16
+*H : Center H atoms (printed as Edges above.)
+
+HF-in-HF error                 :  -1.3256e+03 Ha
+WARNING!!! Large HF-in-HF energy error
+
+Time to initialize HF:  1.008788824081421
+BE1 list of center_atoms and corresponding fragments ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10', 'C11', 'C12', 'C13', 'C14', 'C15', 'C16'] [12]
+-----------------------------------------------------------
+  MMM     MMM    OOOO    LL           BBBBBBB    EEEEEEE 
+  M MM   MM M   OO  OO   LL           BB     B   EE      
+  M  MM MM  M  OO    OO  LL           BB     B   EE      
+  M   MMM   M  OO    OO  LL     ===   BBBBBBB    EEEEEEE 
+  M         M  OO    OO  LL           BB     B   EE      
+  M         M   OO  OO   LL           BB     B   EE      
+  M         M    OOOO    LLLLLL       BBBBBBB    EEEEEEE 
+
+            MOLECULAR BOOTSTRAP EMBEDDING
+            BEn =  be1
+-----------------------------------------------------------
+
+Time to get full-system Fock matrix:  0.00010943412780761719
+Time to localize: 0.013791084289550781
+Fragment number: 14
+Basis library for frag  14 :  {'C': 'sto-3g', 'H': 'sto-3g', 'C15': 'def2-svp', 'H32': 'def2-svp'}
+All centers for fragment  14 :  ['C15']
+Atoms in fragment 14 :  ['C15', 'H32']
+Running HF...
+converged SCF energy = -609.074180894543
+
+Fragment sites
+--------------------------
+Fragment |   Center | Edges 
+--------------------------
+      0  |      C1  |   *H17    *H18  
+      1  |      C2  |   *H19  
+      2  |      C3  |   *H20  
+      3  |      C4  |   *H21  
+      4  |      C5  |   *H22  
+      5  |      C6  |   *H23  
+      6  |      C7  |   *H24  
+      7  |      C8  |   *H25  
+      8  |      C9  |   *H26  
+      9  |     C10  |   *H27  
+     10  |     C11  |   *H28  
+     11  |     C12  |   *H29  
+     12  |     C13  |   *H30  
+     13  |     C14  |   *H31  
+     14  |     C15  |   *H32  
+     15  |     C16  |   *H33    *H34  
+--------------------------
+ No. of fragments :  16
+*H : Center H atoms (printed as Edges above.)
+
+HF-in-HF error                 :  -1.3260e+03 Ha
+WARNING!!! Large HF-in-HF energy error
+
+Time to initialize HF:  2.37534499168396
+HF-in-HF error                 :  -1.3280e+03 Ha
+WARNING!!! Large HF-in-HF energy error
+
+Time to initialize HF:  2.372725248336792
+BE1 list of center_atoms and corresponding fragments ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10', 'C11', 'C12', 'C13', 'C14', 'C15', 'C16'] [14]
+-----------------------------------------------------------
+  MMM     MMM    OOOO    LL           BBBBBBB    EEEEEEE 
+  M MM   MM M   OO  OO   LL           BB     B   EE      
+  M  MM MM  M  OO    OO  LL           BB     B   EE      
+  M   MMM   M  OO    OO  LL     ===   BBBBBBB    EEEEEEE 
+  M         M  OO    OO  LL           BB     B   EE      
+  M         M   OO  OO   LL           BB     B   EE      
+  M         M    OOOO    LLLLLL       BBBBBBB    EEEEEEE 
+
+            MOLECULAR BOOTSTRAP EMBEDDING
+            BEn =  be1
+-----------------------------------------------------------
+
+Time to get full-system Fock matrix:  0.00010466575622558594
+Time to localize: 0.08439302444458008
+HF-in-HF error                 :  -1.3327e+03 Ha
+WARNING!!! Large HF-in-HF energy error
+
+Time to initialize HF:  1.443744421005249
+HF-in-HF error                 :  -1.3300e+03 Ha
+WARNING!!! Large HF-in-HF energy error
+
+Time to initialize HF:  1.6107501983642578
+Fragment number: 15
+Basis library for frag  15 :  {'C': 'sto-3g', 'H': 'sto-3g', 'C16': 'def2-svp', 'H33': 'def2-svp', 'H34': 'def2-svp'}
+All centers for fragment  15 :  ['C16']
+Atoms in fragment 15 :  ['C16', 'H33', 'H34']
+Running HF...
+converged SCF energy = -609.086260790888
+
+Fragment sites
+--------------------------
+Fragment |   Center | Edges 
+--------------------------
+      0  |      C1  |   *H17    *H18  
+      1  |      C2  |   *H19  
+      2  |      C3  |   *H20  
+      3  |      C4  |   *H21  
+      4  |      C5  |   *H22  
+      5  |      C6  |   *H23  
+      6  |      C7  |   *H24  
+      7  |      C8  |   *H25  
+      8  |      C9  |   *H26  
+      9  |     C10  |   *H27  
+     10  |     C11  |   *H28  
+     11  |     C12  |   *H29  
+     12  |     C13  |   *H30  
+     13  |     C14  |   *H31  
+     14  |     C15  |   *H32  
+     15  |     C16  |   *H33    *H34  
+--------------------------
+ No. of fragments :  16
+*H : Center H atoms (printed as Edges above.)
+
+HF-in-HF error                 :  -1.3376e+03 Ha
+WARNING!!! Large HF-in-HF energy error
+
+Time to initialize HF:  1.733069896697998
+BE1 list of center_atoms and corresponding fragments ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10', 'C11', 'C12', 'C13', 'C14', 'C15', 'C16'] [15]
+-----------------------------------------------------------
+  MMM     MMM    OOOO    LL           BBBBBBB    EEEEEEE 
+  M MM   MM M   OO  OO   LL           BB     B   EE      
+  M  MM MM  M  OO    OO  LL           BB     B   EE      
+  M   MMM   M  OO    OO  LL     ===   BBBBBBB    EEEEEEE 
+  M         M  OO    OO  LL           BB     B   EE      
+  M         M   OO  OO   LL           BB     B   EE      
+  M         M    OOOO    LLLLLL       BBBBBBB    EEEEEEE 
+
+            MOLECULAR BOOTSTRAP EMBEDDING
+            BEn =  be1
+-----------------------------------------------------------
+
+Time to get full-system Fock matrix:  0.00011777877807617188
+Time to run all fragments:  3.0747556686401367
+Time to localize: 0.10913395881652832
+Time to run all fragments:  3.3513731956481934
+Time to run all fragments:  3.451784372329712
+Time to run all fragments:  3.724351406097412
+Time to run all fragments:  3.1811113357543945
+Time to run all fragments:  2.663731813430786
+HF-in-HF error                 :  -1.3409e+03 Ha
+WARNING!!! Large HF-in-HF energy error
+
+Time to initialize HF:  1.9400839805603027
+Time to run all fragments:  2.1611580848693848
+Time to run all fragments:  1.4615089893341064
+Energies are... [[-0.16285674486559093], [-0.14180353613266905], [-0.14347397206021606], [-0.14286465626339762], [-0.1431922329902916], [-0.1430264337627274], [-0.14311379316218376], [-0.1430760567555578], [-0.1430760532620421], [-0.1431137990567508], [-0.1430264097160644], [-0.14319222415595434], [-0.1428646702465156], [-0.14347396432388781], [-0.14180353783162047], [-0.16285674293466224]]
+e_corr  -2.3268148275201317
