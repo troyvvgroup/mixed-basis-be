@@ -23,10 +23,14 @@ def process_q4bio_db_export(db_path, output="output.h5"):
                 h5grp.create_dataset("elements", data=elements)
                 h5grp.create_dataset("energy", data=energy)
                 h5grp.create_dataset("charge", data=charge)
+                h5grp.create_dataset("mult", data=mult)
             elif not re.match("^comment", line) is None:  # comment block
                 comment_type = re.findall("^comment ([a-z_]*)", line)[0]
                 if comment_type == "structure_label" or comment_type == "global":
                     pass
+                elif comment_type == "global": # charge and multiplicity
+                    charge = int(re.findall("^global ([0-9]) ([0-9])")[0])
+                    mult = int(re.findall("^global ([0-9]) ([0-9])")[1])
                 elif comment_type == "number":
                     index = re.findall("^comment number ([0-9]*)", line)[0]
                 elif comment_type == "structure_id":
@@ -52,7 +56,8 @@ def process_q4bio_db_export(db_path, output="output.h5"):
             elif not re.match("^energy", line) is None:  # energy line
                 energy = float(re.findall("^energy ([0-9.-]*)", line)[0])
             elif not re.match("^charge", line) is None:  # charge line
-                charge = float(re.findall("^charge ([0-9.-]*)", line)[0])
+                #charge = float(re.findall("^charge ([0-9.-]*)", line)[0])
+                pass
             else:
                 raise ValueError("Unrecognized line: " + line)
     h.attrs.update(idx_id_pair)

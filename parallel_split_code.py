@@ -104,6 +104,7 @@ def mixed_basis_solver(idx, f, small_basis, big_basis, auto_frag, auto_cen, auto
 	energy_list = []
 	ehf_list = []
 	indexing = []
+	e_count = 0.
 	if skip_unnecessary_frag_build:
 		for idxx in range(len(mybe.Fobjs)):
 			tot_e, e_comp = be_func(mybe.pot, [mybe.Fobjs[idxx]], mybe.Nocc, solver='CCSD', enuc=mybe.enuc, 
@@ -112,6 +113,8 @@ def mixed_basis_solver(idx, f, small_basis, big_basis, auto_frag, auto_cen, auto
 			energy_list.append(tot_e)
 			ehf_list.append(mybe.Fobjs[idxx].ebe_hf)
 			indexing.append(centers[idxx])
+			for i in mybe.Fobjs[idxx].efac[1]:
+				e_count += mybe.Fobjs[idxx]._rdm1[i,i]
 	else:
 		for idxx, x in enumerate(frag_nums):
 			tot_e, e_comp = be_func(mybe.pot, [mybe.Fobjs[x]], mybe.Nocc, solver='CCSD', enuc=mybe.enuc, 
@@ -120,7 +123,9 @@ def mixed_basis_solver(idx, f, small_basis, big_basis, auto_frag, auto_cen, auto
 			energy_list.append(tot_e)
 			ehf_list.append(mybe.Fobjs[idxx].ebe_hf)
 			indexing.append(centers[idxx])
-	return energy_list, ehf_list, mybe.enuc+mybe.E_core-mybe.ek
+			for i in mybe.Fobjs[idxx].efac[1]:
+				e_count += mybe.Fobjs[idxx]._rdm1[i,i]
+	return energy_list, ehf_list, mybe.enuc+mybe.E_core-mybe.ek, e_count
 
 def number_geom(geom, new):
 	lines=[]
@@ -185,15 +190,16 @@ print("Atoms not a 'True' center", additional_center)
 Set up and run fragments in series or parallel
 """
 
-energies = []; ehfs = []; enucs = []
+energies = []; ehfs = []; enucs = []; elec_count = 0.
 if nprocs == 1:
 	for index, fragment in enumerate(au_frag):
-		energy, ehf, enuc_core_k = mixed_basis_solver(index, fragment, small_basis_inp, big_basis_inp, au_frag,
+		energy, ehf, enuc_core_k, ect = mixed_basis_solver(index, fragment, small_basis_inp, big_basis_inp, au_frag,
 						au_cen, au_hlist, big_basis_be_inp, heavy_atom, heavy_atom_ind,
 						additional_center, geom_lines, num_geom_file, charge_inp)
 		energies.append(energy)
 		ehfs.append(ehf)
 		enucs.append(enuc_core_k)
+		elec_count += ect
 else:
 	pool_mix = Pool(nprocs)
 
@@ -208,6 +214,7 @@ else:
 	[energies.append(result.get()[0]) for result in results]
 	[ehfs.append(result.get()[1]) for result in results]
 	[enucs.append(result.get()[2]) for result in results]
+	elec_count = sum([result.get()[3] for result in results])
 	pool_mix.close()
 
 print("Correlation Energies are...", energies, flush=True)
@@ -217,6 +224,7 @@ print("HF (elec.)  Energies are...", ehfs, flush=True)
 print("e_corr ", sum(sum(i) for i in energies), flush=True)
 assert np.all(np.isclose(enucs, enucs[0])), "Nuclear+Core energies from different split basis BE fragments differ." + str(enucs)
 print("ehf    ", sum(sum(i) for i in ehfs) + enucs[0], flush=True)
+print("ecount ", elec_count, "; expected ", mol_small_basis.nelec, flush=True)
 #np.savetxt("Energies.csv",energies)
 #np.savetxt("Indexes.csv",indexing)
 
