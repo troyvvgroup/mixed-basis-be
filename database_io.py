@@ -1,8 +1,85 @@
 """
 Functions written for I/O with exported database
 """
-import h5py, sys
+import h5py, sys, importlib, numpy
+import scine_database as db
+import scine_utilities as utils
 
+# Temporary dirty trick to import pipeline functions
+path_to_pipeline = "/home/minsik/pipeline/scripts/get-capped-qm-region"
+sys.path.append(path_to_pipeline)
+pipeline = importlib.import_module("get-capped-qm-region")
+
+# Adapted from Moritz Bensberg's code (pipeline.scripts.get-capped-qm-region.get-capped-qm-region.py)
+def access_q4bio_db(db_name="q4bio-model2-ligand-solvent", structure_id="6623e69125142a3e6e2156ab"):
+    manager = db.Manager()
+    credentials = db.Credentials('tc-dl380-login.ethz.ch', 27017, db_name)
+    manager.set_credentials(credentials)
+    manager.connect()
+
+    # Retrieve structure
+    structure_collection = manager.get_collection('structures')
+    structure = structure_collection.get_structure(db.ID(structure_id))
+
+    # Write full structure to XYZ
+    utils.io.write('structure.xyz', structure.get_atoms())
+    structure_file = 'structure.xyz'
+
+    # Write connectivity file
+    property_collection = manager.get_collection('properties')
+    pipeline.write_connectivity_file('connectivity.dat', property_collection, structure)
+    connectivity_file_name = 'connectivity.dat'
+
+    # Retrieve all atomic charges and write to file
+    property_id = structure.get_property('atomic_charges')
+    atomic_charges = db.VectorProperty(property_id, property_collection)
+    with open('atomic_charges.csv', 'w') as f:
+        for charge in atomic_charges.get_data():
+            f.write(str(charge) + '\n')
+    charge_file = 'atomic_charges.csv'
+
+    # Get indices of QM atoms
+    property_id = structure.get_property('qm_atoms')
+    qm_atoms = db.VectorProperty(property_id, property_collection)
+    qm_atom_indices = [int(i) for i in qm_atoms.get_data()]
+
+    # Write atom types files
+    annotated_atom_collection = pipeline.annotated_structure_with_residue_labels(structure, property_collection)
+    pipeline.write_atom_types_file(annotated_atom_collection)
+    atom_type_file = 'atom_types.dat'
+
+    # Write force field files
+    property_ids = structure.get_properties('openmm_xml_files')
+    force_fields = pipeline.write_xml_parameter_files(property_ids, property_collection)
+
+    manager.disconnect()
+
+    settings = utils.ValueCollection({
+        "electrostatic_embedding": True,
+        "gaff_atomic_charges_file": charge_file,
+        "mm_connectivity_file": connectivity_file_name,
+        "gaff_atom_types_file": atom_type_file,
+        "openmm_xml_files": force_fields,
+        "qm_atoms": qm_atom_indices,
+        "molecular_charge": 0,
+        "spin_multiplicity": 1,
+        "program": "xtb/swoose",
+        "method": "gfn2"
+    })
+    qm_region, mm_charges = pipeline.get_capped_qm_region(settings, structure_file)
+    utils.io.write(structure_id + ".xyz", qm_region)
+    print("XYZ file for the capped QM region is written as " + structure_id + ".xyz")
+
+    charges = []
+    positions = []
+    i = 0
+    while i < len(mm_charges):
+        charges.append(mm_charges[i])
+        positions.append((mm_charges[i + 2], mm_charges[i + 3], mm_charges[i + 4]))
+        i += 5
+
+    numpy.save(structure_id + "_mmcharge", charges)
+    numpy.save(structure_id + "_mmcoords", positions)
 
 def process_q4bio_db_export(db_path, output="output.h5"):
     import re, os, numpy
@@ -95,3 +172,17 @@ if __name__ == "__main__":
         )
         mf.kernel()
         print("qm/mm energy ", h[h.attrs[sys.argv[3]]]["energy"][()])
+    else:
+        # Creates three outputs:
+        # structure_id.xyz              XYZ of QM region
+        # structure_id_mmcharge.npy     List of MM charges
+        # structure_id_mmcoords.npy     List of MM coordinates
+        # In pyscf:
+        # > mol = pyscf.gto.M(); mol.atm = "structure_id.xyz"
+        # > ... (Do split basis stuff)
+        # > mmcoords = numpy.load("structure_id_mmcoords.npy"); mmcharge = numpy.load("structure_id_mmcharge.npy")
+        # > mf = qmmm.mm_charge(pyscf.scf.RHF(mol), mmcoords, mmcharge)
+        db_name = sys.argv[1]
+        structure_id = sys.argv[2]
+        access_q4bio_db(db_name=db_name, structure_id=structure_id)
+        print("Processed " + str(db_name) + "/" + str(structure_id))
