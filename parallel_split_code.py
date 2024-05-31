@@ -20,7 +20,7 @@ big_basis_be_inp = "be1"  # BE level in big basis region
 big_basis_inp = sys.argv[3]  # Basis set of big basis region
 nprocs = int(sys.argv[4])  # Number of available processors
 charge_inp = int(sys.argv[5])  # Charge of system
-if len(sys.argv) > 5:
+if len(sys.argv) > 6:
     mm_charges = np.load(sys.argv[6])  # npy file with a list of MM charges (optional)
     mm_coords = np.load(
         sys.argv[7]
