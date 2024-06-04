@@ -20,10 +20,11 @@ big_basis_be_inp = "be1"  # BE level in big basis region
 big_basis_inp = sys.argv[3]  # Basis set of big basis region
 nprocs = int(sys.argv[4])  # Number of available processors
 charge_inp = int(sys.argv[5])  # Charge of system
-if len(sys.argv) > 6:
-    mm_charges = np.load(sys.argv[6])  # npy file with a list of MM charges (optional)
+chempotopt = True if sys.argv[6] == "True" else False # Chemical Potential Optimization
+if len(sys.argv) > 7:
+    mm_charges = np.load(sys.argv[7])  # npy file with a list of MM charges (optional)
     mm_coords = np.load(
-        sys.argv[7]
+        sys.argv[8]
     )  # npy file with a list of MM coordinates (optional)
 else:
     mm_charges = None
@@ -352,7 +353,7 @@ def costfn(chempot, debug001=False):
     return abs(elec_count - mol_small_basis.nelec[0])
 
 
-if True: # optimize chem pot
+if chempotopt: # optimize chem pot
     import scipy
     pot = 0.
     scipy.optimize.minimize(costfn, pot) # dumb optimizer
