@@ -58,7 +58,7 @@ def mixed_basis_solver(
     charge,
     mm_charges,
     mm_coords,
-    chempot = 0.,
+    chempot,
     skip_unnecessary_frag_build=True,
 ):
     print("Fragment number:", idx)
@@ -130,7 +130,6 @@ def mixed_basis_solver(
 
     # frag_nums contains the fragments that needs to be constructed / evaluated.
     # reduce frag_mixed so that it only contains the fragments we need
-    # edge, edge_idx, center, center_idx is not set
     if skip_unnecessary_frag_build:
         frag_mixed.Nfrag = len(frag_nums)
         frag_mixed.fsites = [frag_mixed.fsites[i] for i in frag_nums]
@@ -165,6 +164,7 @@ def mixed_basis_solver(
                 frag_energy=True,
                 eeval=True,
                 hf_veff=mybe.hf_veff,
+                only_chem=True
             )
             # print("tot_e, e_comp", tot_e, e_comp)
             energy_list.append(tot_e)
@@ -186,10 +186,10 @@ def mixed_basis_solver(
             )
             # print("tot_e, e_comp", tot_e, e_comp)
             energy_list.append(tot_e)
-            ehf_list.append(mybe.Fobjs[idxx].ebe_hf)
+            ehf_list.append(mybe.Fobjs[x].ebe_hf)
             indexing.append(centers[idxx])
-            for i in mybe.Fobjs[idxx].efac[1]:
-                e_count += mybe.Fobjs[idxx]._rdm1[i, i]
+            for i in mybe.Fobjs[x].efac[1]:
+                e_count += mybe.Fobjs[x]._rdm1[i, i]
     return energy_list, ehf_list, mybe.enuc + mybe.E_core - mybe.ek, e_count
 
 
@@ -273,7 +273,8 @@ print("Atoms not a 'True' center", additional_center)
 Set up and run fragments in series or parallel
 """
 
-def costfn(chempot, debug001=False): # adopted from IBC.ipynb
+def costfn(chempot, debug001=False):
+    print("POT", chempot, flush=True)
     energies = []
     ehfs = []
     enucs = []
