@@ -90,7 +90,7 @@ def mixed_basis_solver(
     # Add all heavy atoms which are only in this big basis fragment
     centers = [center]
     for i in auto_add_centers[idx]:
-        centers.append(heavy_atoms[i])
+        centers.append(str(geom[i].split()[0]))
 
     print("All centers for fragment ", idx, ": ", centers)
     print("Heavy atoms in fragment ", heavy_atoms)

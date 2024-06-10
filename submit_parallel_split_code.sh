@@ -1,11 +1,11 @@
 #!/bin/bash
 
 file="trial"
-geoms="12"
-outer_basis="def2-SVP"
+geoms="4_poly"
+outer_basis="cc-pVDZ"
 inner_be_levels="be1"
-outer_be_levels="be1 be3"
-nproc="2"
+outer_be_levels="be1 be2 be3"
+nproc="1"
 runpath=$PWD
 geompath=$runpath/../split_4Jun24/geoms
 code=$runpath/parallel_split_code.py
