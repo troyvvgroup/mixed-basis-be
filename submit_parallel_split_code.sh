@@ -1,50 +1,53 @@
 #!/bin/bash
 
-geoms="protein complex"
-outer_basis="def2-SVP def2-TZVP"
-be_levels="be1"
-nproc="24"
+file="trial"
+geoms="12"
+outer_basis="def2-SVP"
+inner_be_levels="be1"
+outer_be_levels="be1 be3"
+nproc="2"
 runpath=$PWD
-geompath=$runpath/../geom
+geompath=$runpath/../split_4Jun24/geoms
 code=$runpath/parallel_split_code.py
-charge='1'
+charge='0'
+chempotopt=False
 
 for g in $geoms
 do
-
 for o in $outer_basis
 do
-
 mkdir -p ${g}_${o}
 cd ${g}_${o}
 
-for be in $be_levels
+for ibe in $inner_be_levels
 do
+for obe in $outer_be_levels
+do
+be=${ibe}_in_${obe}
 mkdir -p $be
 cd $be
 
 geom=$geompath/$g.xyz
-
 cat > submit_${g}_${be}.sh << eof
 #!/bin/bash
 
-#SBATCH -t 1500:00:00
-#SBATCH -o nsbatch.out
-#SBATCH -e sbatch.err
+#SBATCH -t 1:00:00
+#SBATCH -o nsbatch_${file}.out
+#SBATCH -e sbatch_${file}.err
 #SBATCH -c $nproc
 #SBATCH -N 1
-#SBATCH --mem=16000
-#SBATCH --partition=veryhigh
+#SBATCH --mem=8000
+#SBATCH --partition=high
 
 export PYTHONPATH=/home/q4bio/source/mol-be:$PYTHONPATH
 
-python3 $code $geom $be $o $nproc $charge > out_file_${g}_be1_in_${be}_${nproc}.out
+python3 $code $geom $obe $ibe $o $nproc $charge $chempotopt > out_file_${g}_${be}_${nproc}_${file}.out
 eof
 
 sbatch submit_${g}_${be}.sh
 cd ../
 done
-cd ..
 done
 cd ..
+done
 done
