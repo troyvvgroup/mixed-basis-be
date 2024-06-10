@@ -146,7 +146,7 @@ def mixed_basis_solver(
             for f in in_frag_list:
                 if f not in frag_nums:
                     frag_nums.append(f)
-    
+
     # frag_nums contains the fragments that needs to be constructed / evaluated.
     # reduce frag_mixed so that it only contains the fragments we need
     if skip_unnecessary_frag_build:
@@ -158,7 +158,7 @@ def mixed_basis_solver(
     print(
         "BE1 list of center_atoms and corresponding fragments", center_atoms, frag_nums
     )
-    
+
     mybe = pbe(
         mf_mixed,
         frag_mixed,
@@ -166,7 +166,6 @@ def mixed_basis_solver(
         molecule=True,
         eri_file="eri_file_" + str(idx) + ".h5",
     )
-
 
     energy_list = []
     ehf_list = []
@@ -211,7 +210,6 @@ def mixed_basis_solver(
             for i in mybe.Fobjs[x].efac[1]:
                 e_count += mybe.Fobjs[x]._rdm1[i, i]
     return energy_list, ehf_list, mybe.enuc + mybe.E_core - mybe.ek, e_count
-    
 
 def number_geom(geom, new):
     lines = []
