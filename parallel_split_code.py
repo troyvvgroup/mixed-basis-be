@@ -128,24 +128,29 @@ def mixed_basis_solver(
     )
 
     center_atoms = [geom[i].split()[0] for i in frag_auto_c]
-    frag_nums = []
+    frag_nums = []; center_atoms_retry = [] # for linear chains, this is fine (making sure center is included)
+    # center_atoms_retry is used to ensure that the center is included in the fragment list if it is not an "additional" center
+    # for non-linear chains, there may be edge cases. This is a temporary fix.
 
     for i in centers:
         try:
             frag_nums.append(center_atoms.index(i))
         except:
-            # center is not an "additional" center: want to ensure its
-            # fragment is included in frag_nums
-            # This shouldn't be necessary, but will print if issue
-            print("Problem with center", i)
-            add_center_ind = heavy_atoms_ind[heavy_atoms.index(i)]
-            in_frag_list = []
-            for frag in frag_auto_f:
-                if add_center_ind in frag:
-                    in_frag_list.append(frag_auto_f.index(frag))
-            for f in in_frag_list:
-                if f not in frag_nums:
-                    frag_nums.append(f)
+            center_atoms_retry.append(i)
+    
+    for i in center_atoms_retry:
+        # center is not an "additional" center: want to ensure its
+        # fragment is included in frag_nums
+        # This shouldn't be necessary, but will print if issue
+        print("Problem with center", i)
+        add_center_ind = heavy_atoms_ind[heavy_atoms.index(i)]
+        in_frag_list = []
+        for frag in frag_auto_f:
+            if add_center_ind in frag:
+                in_frag_list.append(frag_auto_f.index(frag))
+        for f in in_frag_list:
+            if f not in frag_nums:
+                frag_nums.append(f)
 
     # frag_nums contains the fragments that needs to be constructed / evaluated.
     # reduce frag_mixed so that it only contains the fragments we need
@@ -183,7 +188,7 @@ def mixed_basis_solver(
                 frag_energy=True,
                 eeval=True,
                 hf_veff=mybe.hf_veff,
-                only_chem=True
+                only_chem=True,
             )
             # print("tot_e, e_comp", tot_e, e_comp)
             energy_list.append(tot_e)
@@ -202,6 +207,7 @@ def mixed_basis_solver(
                 frag_energy=True,
                 eeval=True,
                 hf_veff=mybe.hf_veff,
+                only_chem=True,
             )
             # print("tot_e, e_comp", tot_e, e_comp)
             energy_list.append(tot_e)
@@ -293,7 +299,7 @@ print("Atoms not a 'True' center", additional_center)
 Set up and run fragments in series or parallel
 """
 
-def costfn(chempot, debug001=False):
+def costfn(chempot = chempotopt, debug001=False):
     print("POT", chempot, flush=True)
     energies = []
     ehfs = []
@@ -378,4 +384,4 @@ if chempotopt: # optimize chem pot
     import scipy
     pot = 0.
     scipy.optimize.minimize(costfn, pot) # dumb optimizer
-else: costfn(0.)
+else: costfn([0.])
