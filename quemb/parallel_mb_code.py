@@ -1,5 +1,6 @@
 import numpy as np
 import re, pyscf, os, sys
+from pyscf.lib import logger
 from molbe.mbe import BE
 from molbe.fragment import fragpart
 from molbe.helper import get_scfObj, get_eri, get_veff
@@ -22,24 +23,26 @@ charge_inp = int(sys.argv[6])  # Charge of system
 chempotopt = True if sys.argv[7] == "True" else False # Chemical Potential Optimization
 if len(sys.argv) > 8:
     mm_charges = np.load(sys.argv[8])  # npy file with a list of MM charges (optional)
-    mm_coords = np.load(
-        sys.argv[9]
-    )  # npy file with a list of MM coordinates (optional)
+    mm_coords = np.load(sys.argv[9])  # npy file with a list of MM coordinates (optional)
 else:
     mm_charges = None
     mm_coords = None
 
-# QuEmb molbe be_var settings
+#Verbosity to control print levels
+#Verbose levels: Quiet (0), Error (1), Warn (2), Note (3), Info (4), Debug (5)
+verbose = 0
+
+# QuEmb molbe be_var settings to control scratch
 be_var.SCRATCH = "/scratch/lweisbur/"
 be_var.CREATE_SCRATCH_DIR = True
 
-# add numbers to all geometries -- Match mol-be
+# add numbers to all geometries
 num_geom_file = geom_file[:-4] + "-numbered.xyz"
 
 """
 Establish all functions
 """
-
+log = logger.Logger(sys.stdout, verbose)
 
 def mixed_basis_solver(
     idx,
@@ -62,8 +65,8 @@ def mixed_basis_solver(
     chempot,
     skip_unnecessary_frag_build=True,
 ):
-    print("Fragment number:", idx)
 
+    log.note("Fragment number: %s", idx)
     basis_library = {}
 
     # Build basis for the full system in the small basis
@@ -81,8 +84,7 @@ def mixed_basis_solver(
             frag_atoms.append(atom)
             basis_library[atom] = big_basis
 
-    print("Basis library for frag ", idx, ": ", basis_library)
-
+    log.info("Basis library for fragment %s: %s", idx, basis_library)
     # Identify centers of fragment to perform be1 on
     center = str(geom[auto_cen[idx]].split()[0])
 
@@ -91,11 +93,11 @@ def mixed_basis_solver(
     for i in auto_add_centers[idx]:
         centers.append(str(geom[i].split()[0]))
 
-    print("All centers for fragment ", idx, ": ", centers)
-    print("Heavy atoms in fragment ", heavy_atoms)
-    print("Heavy atom index", heavy_atoms_ind)
+    log.info("All centers for fragment %s: %s", idx, centers)
+    log.debug("Heavy atoms in fragment %s: %s", idx, heavy_atoms)
+    log.debug("Heavy atom indices: %s", heavy_atoms_ind)
 
-    print("Atoms in fragment", idx, ": ", frag_atoms)
+    log.info("Atoms in fragment %s: %s", idx, frag_atoms)
 
     # Build HF for the full mixed-basis sysetm
     mol_mixed = pyscf.gto.Mole()
@@ -105,16 +107,19 @@ def mixed_basis_solver(
     mol_mixed.build()
 
     # Run HF for fragment
-    print("Running HF...")
+    log.note("Running HF...")
     if not (mm_charges is None) and not (mm_coords is None):
-        print("with MM charges...")
+        log.note("with MM charges...")
         mf_mixed = qmmm.mm_charge(pyscf.scf.RHF(mol_mixed), mm_coords, mm_charges)
     else:
         mf_mixed = pyscf.scf.RHF(mol_mixed)
     mf_mixed.kernel()
 
-    # Run BE1 fragmentation for mixed basis system
-    frag_mixed = fragpart(be_type=big_basis_be, mol=mol_mixed)
+    # Run BE(1) fragmentation for mixed basis system
+    if verbose < 4:
+        frag_mixed = fragpart(be_type=big_basis_be, mol=mol_mixed, print_frags=False)
+    else:
+        frag_mixed = fragpart(be_type=big_basis_be, mol=mol_mixed, print_frags=True)
 
     frag_auto_f = frag_mixed.Frag_atom 
     frag_auto_c = frag_mixed.center_atom
@@ -123,7 +128,8 @@ def mixed_basis_solver(
 
     center_atoms = [geom[i].split()[0] for i in frag_auto_c]
     frag_nums = []; center_atoms_retry = [] # for linear chains, this is fine (making sure center is included)
-    # center_atoms_retry is used to ensure that the center is included in the fragment list if it is not an "additional" center
+    # center_atoms_retry is used to ensure that the center is included in the
+    # fragment list if it is not an "additional" center
     # for non-linear chains, there may be edge cases. This is a temporary fix.
 
     for i in centers:
@@ -136,7 +142,7 @@ def mixed_basis_solver(
         # center is not an "additional" center: want to ensure its
         # fragment is included in frag_nums
         # This shouldn't be necessary, but will print if issue
-        print("Problem with center", i)
+        log.warn("Problem with center %s", i)
         add_center_ind = heavy_atoms_ind[heavy_atoms.index(i)]
         in_frag_list = []
         for frag in frag_auto_f:
@@ -154,9 +160,7 @@ def mixed_basis_solver(
         frag_mixed.centerf_idx = [frag_mixed.centerf_idx[i] for i in frag_nums]
         frag_mixed.ebe_weight = [frag_mixed.ebe_weight[i] for i in frag_nums]
 
-    print(
-        "BE1 list of center_atoms and corresponding fragments", center_atoms, frag_nums
-    )
+    log.info("BE(1) list of center_atoms and corresponding fragments:\n %s,\n %s", center_atoms, frag_nums)
 
     mybe = BE(
         mf_mixed,
@@ -252,20 +256,22 @@ mol_small_basis.basis = small_basis_inp
 mol_small_basis.charge = charge_inp
 mol_small_basis.build()
 
-# fragment the structure
-print("Initially fragmenting the structure")
+# fragment the structure, via the big basis set region BE level
+log.note("Initially fragmenting the structure")
 
-frag_au= fragpart(be_type=big_basis_region, mol=mol_small_basis)
+if verbose < 1:
+    frag_au= fragpart(be_type=big_basis_region, mol=mol_small_basis, print_frags=False)
+else:
+    frag_au= fragpart(be_type=big_basis_region, mol=mol_small_basis, print_frags=True)
 
 au_frag = frag_au.Frag_atom
 au_cen = frag_au.center_atom
 au_hlist = frag_au.hlist_atom
 au_add_centers = frag_au.add_center_atom
-
-print("Big Basis Regions: All Fragments", au_frag)
-print("Big Basis Regions: 'True' Centers", au_cen)
-print("Big Basis Regions: Hydrogen List", au_hlist)
-print("Big Basis EBE Weight:", au_add_centers)
+log.note("Big Basis Regions: All Fragments: %s", au_frag)
+log.info("Big Basis Regions: 'True' Centers: %s", au_cen)
+log.info("Big Basis Regions: Hydrogen List: %s", au_hlist)
+log.info("Big Basis Additional Centers: %s", au_add_centers)
 
 # Generate a list of all heavy atoms
 heavy_atom = []
@@ -274,14 +280,14 @@ for i in geom_lines:
     if i.split()[0][0] != "H":
         heavy_atom.append(i.split()[0])
         heavy_atom_ind.append(int((re.split("(\d+)", i.split()[0]))[1]) - 1)
-print("All Heavy Atoms and Indices", heavy_atom, heavy_atom_ind)
+log.debug("All Heavy Atoms and Indices: %s %s", heavy_atom, heavy_atom_ind)
 
 # Identify atoms which are not considered a "center" in a the big basis region scheme
 additional_center = []
 for i in heavy_atom_ind:
     if i not in au_cen:
         additional_center.append(i)
-print("Atoms not a 'True' center", additional_center)
+log.debug("Atoms not a 'True' center: %s", additional_center)
 
 """
 Set up and run fragments in series or parallel
@@ -356,14 +362,14 @@ def costfn(chempot = chempotopt, debug001=False):
         elec_count = sum([result.get()[3] for result in results])
         pool_mix.close()
 
-    print("Correlation Energies are...", energies, flush=True)
-    print("HF (elec.)  Energies are...", ehfs, flush=True)
-    print("e_corr ", sum(sum(i) for i in energies), flush=True)
+    log.note("Correlation Energies are... %s", energies)
+    log.note("HF (elec.)  Energies are... %s", ehfs)
+    print("Final e_corr: ", sum(sum(i) for i in energies))
     assert np.all(
         np.isclose(enucs, enucs[0])
     ), "Nuclear+Core energies from different split basis BE fragments differ." + str(enucs)
-    print("ehf    ", sum(sum(i) for i in ehfs) + enucs[0], flush=True)
-    print("ecount ", elec_count, "; expected ", mol_small_basis.nelec, flush=True)
+    print("HF Energy:    ", sum(sum(i) for i in ehfs) + enucs[0])
+    log.note("ecount %s; expected %s", elec_count, mol_small_basis.nelec[0])
 
     return abs(elec_count - mol_small_basis.nelec[0])
 
