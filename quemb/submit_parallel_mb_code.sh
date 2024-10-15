@@ -5,10 +5,14 @@ geoms="4_poly"
 outer_basis="cc-pVDZ"
 inner_be_levels="be1"
 outer_be_levels="be2"
+
 nproc="1"
+partition="high"
+mem0="8000"
+mem=`echo $mem0 $nproc | awk '{print $1*$2}'`
 runpath=$PWD
 geompath=$runpath/../
-code=$runpath/parallel_split_code.py
+code=$runpath/parallel_mb_code.py
 charge='0'
 chempotopt=False
 
@@ -36,8 +40,8 @@ cat > submit_${g}_${be}.sh << eof
 #SBATCH -e sbatch_${file}.err
 #SBATCH -c $nproc
 #SBATCH -N 1
-#SBATCH --mem=8000
-#SBATCH --partition=high
+#SBATCH --mem=$mem
+#SBATCH --partition=$partition
 
 export PYTHONPATH=/home/lweisbur/source/quemb:$PYTHONPATH
 
