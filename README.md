@@ -1,6 +1,8 @@
 # mixed-basis-be
-mixed-basis calculations based originally on QuEmb repository from oimeitei, 
-and now later versions from quemb from troyvvgroup.
+mixed-basis calculations based originally on QuEmb repository from oimeitei 
+(https://github.com/oimeitei/quemb), 
+and now later versions from quemb from troyvvgroup
+(https://github.com/troyvvgroup/quemb).
 
 Allows for BE calculations to perfomed from a mixed-basis reference. 
 Rather than using a single large-basis HF reference wavefunction, 
@@ -11,7 +13,7 @@ both the HF reference steps and the integral transformations to each integral
 space while preserving BE(n) accuracy. This allows for dense basis, large accuracy
 BE calculations to be performed for extended chemical systems.
 
-To run the code, first install quemb using guide (https://github.com/troyvvgroup/quemb).
+To run the code, first install quemb using guide.
 Then, simply provide the geometry and charge of the system interest; size of big basis
 region, using the BE(x) prescription based on x connected coordination shells; chosen
 basis for the big (BE(m)) and small basis set regions; and BE(n) choice for BE fragment
