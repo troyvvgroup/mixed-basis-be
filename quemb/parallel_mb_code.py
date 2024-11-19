@@ -261,7 +261,8 @@ def mixed_basis_solver(
 
 def number_geom(geom, new):
     """Make numbered geometry file
-    Paramaters
+
+    Parameters
     __________
     geom: str
         String with path to geometry file
