@@ -65,6 +65,53 @@ def mixed_basis_solver(
     chempot,
     skip_unnecessary_frag_build=True,
 ):
+    """Run Mixed-Basis Solver with QuEmb
+
+    Parameters
+    _________
+    idx: int
+        Fragment number corresponding to the big basis set region
+    f: list
+        List of heavy atom indices in fragment idx
+    small_basis: str
+        Small basis set outside the fragment region, typically 'STO-3G'
+    big_basis: str
+        Big basis set for the big basis region near the framgnet
+    auto_frag: list
+        List of lists, from QuEmb's autofrag, giving all fragments. Each 
+        element contains the indices of the heavy atoms in each gragment
+    auto_cen: list
+        List of lists, from QuEmb's autofrag, giving the indices of the centers
+        of each fragment
+    auto_hlist: list
+        List of lists, from QuEmb's autofrag, giving all hydrogen indices in 
+        each fragment
+    auto_add_centers: list
+        List of lists, from QuEmb's autofrag, giving heavy atoms in each fragment
+        which are not centers in any other fragment
+    big_basis_be: str
+        Size of big basis set region, options "BE1", "BE2", "BE3"
+    heavy_atoms: list
+        List of heavy atoms with numbers
+    heavy_atoms_ind: list
+        List of indices for all heavy atoms
+    add_center: list
+        List of indices for heavy atoms which are not "centers" in auto_cen
+    geom: list
+        List giving the geometry of the system
+    numbered_geom_file: str
+        String with the path to the numbered geometry file
+    charge: int
+        Charge of the system
+    mm_charges: list
+        List of MM point charges, ordinarily set to None
+    mm_coords: list
+        List of MM coordinates, ordinarily set to None
+    chempot: list
+        Chemical potential for the system, set for chemical potential matching
+    skip_unnecessary_frag_build: bool, optional
+        Do not build extra fragments, default True
+    """
 
     log.note("Fragment number: %s", idx)
     basis_library = {}
@@ -213,6 +260,14 @@ def mixed_basis_solver(
     return energy_list, ehf_list, mybe.enuc + mybe.E_core, e_count
 
 def number_geom(geom, new):
+    """Make numbered geometry file
+    Paramaters
+    __________
+    geom: str
+        String with path to geometry file
+    new: str
+        String with path to write new, numbered geometry file
+    """
     lines = []
     w = open(geom, "rt")
     i = -1
