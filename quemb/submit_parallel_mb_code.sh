@@ -1,17 +1,16 @@
 #!/bin/bash
 
-file="trial"
-geoms="4_poly"
+geoms="2 4"
 outer_basis="cc-pVDZ"
 inner_be_levels="be1"
-outer_be_levels="be2"
+outer_be_levels="be1 be2"
 
-nproc="1"
-partition="high"
-mem0="8000"
+nproc="4"
+partition="short"
+mem0="4000"
 mem=`echo $mem0 $nproc | awk '{print $1*$2}'`
 runpath=$PWD
-geompath=$runpath/../
+geompath=$runpath/../xyz/
 code=$runpath/parallel_mb_code.py
 charge='0'
 chempotopt=False
@@ -32,12 +31,13 @@ mkdir -p $be
 cd $be
 
 geom=$geompath/$g.xyz
+
 cat > submit_${g}_${be}.sh << eof
 #!/bin/bash
 
 #SBATCH -t 1:00:00
-#SBATCH -o nsbatch_${file}.out
-#SBATCH -e sbatch_${file}.err
+#SBATCH -o nsbatch_${g}_${be}.out
+#SBATCH -e sbatch_${g}_${be}.err
 #SBATCH -c $nproc
 #SBATCH -N 1
 #SBATCH --mem=$mem
@@ -45,7 +45,7 @@ cat > submit_${g}_${be}.sh << eof
 
 export PYTHONPATH=/home/lweisbur/source/quemb:$PYTHONPATH
 
-python3 $code $geom $obe $ibe $o $nproc $charge $chempotopt > out_file_${g}_${be}_${nproc}_${file}.out
+python3 $code $geom $obe $ibe $o $nproc $charge $chempotopt > out_file_${g}_${be}_${nproc}.out
 eof
 
 sbatch submit_${g}_${be}.sh
