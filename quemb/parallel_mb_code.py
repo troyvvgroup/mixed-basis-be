@@ -2,6 +2,7 @@ import numpy as np
 import re
 import pyscf
 import sys
+import mb_vars
 from pyscf.lib import logger
 from molbe.mbe import BE
 from molbe.fragment import fragpart
@@ -31,11 +32,11 @@ else:
 
 #Verbosity to control print levels
 #Verbose levels: Quiet (0), Error (1), Warn (2), Note (3), Info (4), Debug (5)
-verbose = 0
+verbose = mb_vars.log_verbose_level
 
 # QuEmb molbe be_var settings to control scratch
-be_var.SCRATCH = "/scratch/lweisbur/"
-be_var.CREATE_SCRATCH_DIR = True
+be_var.SCRATCH = mb_vars.scratch
+be_var.CREATE_SCRATCH_DIR = mb_vars.create_scratch_directory
 
 # add numbers to all geometries
 num_geom_file = geom_file[:-4] + "-numbered.xyz"
