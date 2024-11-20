@@ -1,9 +1,10 @@
 import numpy as np
-import re, pyscf, os, sys
+import re
+import pyscf
+import sys
 from pyscf.lib import logger
 from molbe.mbe import BE
 from molbe.fragment import fragpart
-from molbe.helper import get_scfObj, get_eri, get_veff
 from molbe.solver import be_func
 from pyscf import qmmm
 from molbe import be_var
@@ -155,7 +156,7 @@ def mixed_basis_solver(
 
     # Run HF for fragment
     log.note("Running HF...")
-    if not (mm_charges is None) and not (mm_coords is None):
+    if (mm_charges is not None) and (mm_coords is not None):
         log.note("with MM charges...")
         mf_mixed = qmmm.mm_charge(pyscf.scf.RHF(mol_mixed), mm_coords, mm_charges)
     else:
@@ -168,21 +169,23 @@ def mixed_basis_solver(
     else:
         frag_mixed = fragpart(be_type=big_basis_be, mol=mol_mixed, print_frags=True)
 
-    frag_auto_f = frag_mixed.Frag_atom 
+    frag_auto_f = frag_mixed.Frag_atom
     frag_auto_c = frag_mixed.center_atom
-    frag_auto_h = frag_mixed.hlist_atom
-    frag_add_centers = frag_mixed.add_center_atom
+    # additional returns, not necessary for fragment (yet)
+    # frag_auto_h = frag_mixed.hlist_atom
+    # frag_add_centers = frag_mixed.add_center_atom
 
     center_atoms = [geom[i].split()[0] for i in frag_auto_c]
-    frag_nums = []; center_atoms_retry = [] # for linear chains, this is fine (making sure center is included)
+    frag_nums = []
+    center_atoms_retry = [] # for linear chains, this is fine (making sure center is included)
     # center_atoms_retry is used to ensure that the center is included in the
     # fragment list if it is not an "additional" center
     # for non-linear chains, there may be edge cases. This is a temporary fix.
 
     for i in centers:
-        try:
+        if i in center_atoms:
             frag_nums.append(center_atoms.index(i))
-        except:
+        else:
             center_atoms_retry.append(i)
     
     for i in center_atoms_retry:
@@ -434,4 +437,5 @@ if chempotopt: # optimize chem pot
     import scipy
     pot = 0.
     scipy.optimize.minimize(costfn, pot) # dumb optimizer
-else: costfn([0.])
+else: 
+    costfn([0.])

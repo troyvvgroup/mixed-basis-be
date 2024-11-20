@@ -1,7 +1,10 @@
 """
 Functions written for I/O with exported database
 """
-import h5py, sys, importlib, numpy
+import h5py
+import sys
+import importlib
+import numpy
 import scine_database as db
 import scine_utilities as utils
 
@@ -109,7 +112,7 @@ def process_q4bio_db_export(db_path, output="output.h5"):
                 h5grp.create_dataset("energy", data=energy)
                 h5grp.create_dataset("charge", data=charge)
                 h5grp.create_dataset("mult", data=mult)
-            elif not re.match("^comment", line) is None:  # comment block
+            elif re.match("^comment", line) is not None:  # comment block
                 comment_type = re.findall("^comment ([a-z_]*)", line)[0]
                 if comment_type == "structure_label" or comment_type == "global":
                     pass
@@ -128,7 +131,7 @@ def process_q4bio_db_export(db_path, output="output.h5"):
                     mmcharge = []  # pyscf.qmmm.mm_charge format   [chg1, chg2, ...]
                 else:
                     raise ValueError("Unrecognized comment block: " + line)
-            elif not re.match("^atom", line) is None:  # data block
+            elif re.match("^atom", line) is not None:  # data block
                 data = line.split()
                 if data[5] == "2.0":  # mm charge
                     mmcoords.append((float(data[1]), float(data[2]), float(data[3])))
@@ -138,9 +141,9 @@ def process_q4bio_db_export(db_path, output="output.h5"):
                     elements.append(data[4])
                 else:
                     raise ValueError("Unrecognized data block: " + line)
-            elif not re.match("^energy", line) is None:  # energy line
+            elif re.match("^energy", line) is not None:  # energy line
                 energy = float(re.findall("^energy ([0-9.-]*)", line)[0])
-            elif not re.match("^charge", line) is None:  # charge line
+            elif re.match("^charge", line) is not None:  # charge line
                 # charge = float(re.findall("^charge ([0-9.-]*)", line)[0])
                 pass
             else:
