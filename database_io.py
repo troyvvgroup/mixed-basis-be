@@ -19,6 +19,15 @@ pipeline = importlib.import_module("get-capped-qm-region")
 def access_q4bio_db(
     db_name="q4bio-model2-ligand-solvent", structure_id="6623e69125142a3e6e2156ab"
 ):
+    """Access Q4Bio database and write files for QM/MM calculations
+
+    Parameters
+    ----------
+    db_name : str, optional
+        Name of the target database, by default "q4bio-model2-ligand-solvent"
+    structure_id : str, optional
+        Structure ID, by default "6623e69125142a3e6e2156ab"
+    """
     manager = db.Manager()
     credentials = db.Credentials(vars.db_host, vars.db_port, db_name)
     manager.set_credentials(credentials)
@@ -94,6 +103,20 @@ def access_q4bio_db(
 
 
 def process_q4bio_db_export(db_path, output="output.h5"):
+    """Process Q4Bio database queries into an h5py file
+
+    Parameters
+    ----------
+    db_path : _type_
+        Output from Q4Bio database query
+    output : str, optional
+        h5py File to write information, by default "output.h5"
+
+    Raises
+    ------
+    ValueError
+        If query output (in `db_path`) is invalid, raise ValueError
+    """
     import os
     import re
 
