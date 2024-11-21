@@ -1,16 +1,17 @@
 """
 Functions written for I/O with exported database
 """
+
 import h5py
 import sys
 import importlib
 import numpy
+import database_io_vars as vars
 import scine_database as db
 import scine_utilities as utils
 
-# Temporary dirty trick to import pipeline functions
-path_to_pipeline = "/home/minsik/pipeline/scripts/get-capped-qm-region"
-sys.path.append(path_to_pipeline)
+# Trick to import pipeline functions
+sys.path.append(db.path_to_pipeline)
 pipeline = importlib.import_module("get-capped-qm-region")
 
 
@@ -19,7 +20,7 @@ def access_q4bio_db(
     db_name="q4bio-model2-ligand-solvent", structure_id="6623e69125142a3e6e2156ab"
 ):
     manager = db.Manager()
-    credentials = db.Credentials("tc-dl380-login.ethz.ch", 27017, db_name)
+    credentials = db.Credentials(vars.db_host, vars.db_port, db_name)
     manager.set_credentials(credentials)
     manager.connect()
 
@@ -93,7 +94,8 @@ def access_q4bio_db(
 
 
 def process_q4bio_db_export(db_path, output="output.h5"):
-    import re, os, numpy
+    import os
+    import re
 
     # Check that db_path is a file
     assert os.path.isfile(db_path), "Input should be a recognizable path to a file."
@@ -104,14 +106,6 @@ def process_q4bio_db_export(db_path, output="output.h5"):
             line = line.strip()
             if line.lower() == "begin":
                 pass
-            elif line.lower() == "end":
-                h5grp.create_dataset("mmcoords", data=mmcoords)
-                h5grp.create_dataset("mmcharge", data=mmcharge)
-                h5grp.create_dataset("atcoords", data=atcoords)
-                h5grp.create_dataset("elements", data=elements)
-                h5grp.create_dataset("energy", data=energy)
-                h5grp.create_dataset("charge", data=charge)
-                h5grp.create_dataset("mult", data=mult)
             elif re.match("^comment", line) is not None:  # comment block
                 comment_type = re.findall("^comment ([a-z_]*)", line)[0]
                 if comment_type == "structure_label" or comment_type == "global":
@@ -146,6 +140,14 @@ def process_q4bio_db_export(db_path, output="output.h5"):
             elif re.match("^charge", line) is not None:  # charge line
                 # charge = float(re.findall("^charge ([0-9.-]*)", line)[0])
                 pass
+            elif line.lower() == "end":
+                h5grp.create_dataset("mmcoords", data=mmcoords)
+                h5grp.create_dataset("mmcharge", data=mmcharge)
+                h5grp.create_dataset("atcoords", data=atcoords)
+                h5grp.create_dataset("elements", data=elements)
+                h5grp.create_dataset("energy", data=energy)
+                h5grp.create_dataset("charge", data=charge)
+                h5grp.create_dataset("mult", data=mult)
             else:
                 raise ValueError("Unrecognized line: " + line)
     h.attrs.update(idx_id_pair)
@@ -190,7 +192,7 @@ if __name__ == "__main__":
         # > python /home/minsik/split-basis-be/database_io.py q4bio-model2-ligand-solvent 6623e67f25142a3e6e215679
         # See /home/q4bio/splitting_basis/MMtest_q4bio-model2-ligand-solvent for sample SLURM script
         manager = db.Manager()
-        credentials = db.Credentials("tc-dl380-login.ethz.ch", 27017, sys.argv[2])
+        credentials = db.Credentials(vars.db_host, vars.db_port, sys.argv[2])
         manager.set_credentials(credentials)
         manager.connect()
         structure_collection = manager.get_collection("structures")
