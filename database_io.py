@@ -11,7 +11,7 @@ import scine_database as db
 import scine_utilities as utils
 
 # Trick to import pipeline functions
-sys.path.append(db.path_to_pipeline)
+sys.path.append(vars.path_to_pipeline)
 pipeline = importlib.import_module("get-capped-qm-region")
 
 
