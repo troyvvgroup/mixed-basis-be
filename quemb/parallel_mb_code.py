@@ -4,11 +4,11 @@ import pyscf
 import sys
 import mb_vars
 from pyscf.lib import logger
-from molbe.mbe import BE
-from molbe.fragment import fragpart
-from molbe.solver import be_func
+from quemb.molbe.mbe import BE
+from quemb.molbe.fragment import fragpart
+from quemb.molbe.solver import be_func
+from quemb.shared.manage_scratch import WorkDir
 from pyscf import qmmm
-from molbe import be_var
 from multiprocessing import Pool
 
 """
@@ -33,10 +33,6 @@ else:
 #Verbosity to control print levels
 #Verbose levels: Quiet (0), Error (1), Warn (2), Note (3), Info (4), Debug (5)
 verbose = mb_vars.log_verbose_level
-
-# QuEmb molbe be_var settings to control scratch
-be_var.SCRATCH = mb_vars.scratch
-be_var.CREATE_SCRATCH_DIR = mb_vars.create_scratch_directory
 
 # add numbers to all geometries
 num_geom_file = geom_file[:-4] + "-numbered.xyz"
@@ -65,6 +61,7 @@ def mixed_basis_solver(
     mm_charges,
     mm_coords,
     chempot,
+    scratch,
     skip_unnecessary_frag_build=True,
 ):
     """Run Mixed-Basis Solver with QuEmb
@@ -134,7 +131,8 @@ def mixed_basis_solver(
             basis_library[atom] = big_basis
 
     log.info("Basis library for fragment %s: %s", idx, basis_library)
-    # Identify centers of fragment to perform be1 on
+
+    # Identify centers of fragment to perform BE1 on
     center = str(geom[auto_cen[idx]].split()[0])
 
     # Add all heavy atoms which are only in this big basis fragment
@@ -172,9 +170,6 @@ def mixed_basis_solver(
 
     frag_auto_f = frag_mixed.Frag_atom
     frag_auto_c = frag_mixed.center_atom
-    # additional returns, not necessary for fragment (yet)
-    # frag_auto_h = frag_mixed.hlist_atom
-    # frag_add_centers = frag_mixed.add_center_atom
 
     center_atoms = [geom[i].split()[0] for i in frag_auto_c]
     frag_nums = []
@@ -188,7 +183,7 @@ def mixed_basis_solver(
             frag_nums.append(center_atoms.index(i))
         else:
             center_atoms_retry.append(i)
-    
+
     for i in center_atoms_retry:
         # center is not an "additional" center: want to ensure its
         # fragment is included in frag_nums
@@ -218,6 +213,7 @@ def mixed_basis_solver(
         frag_mixed,
         lo_method="lowdin",
         eri_file="eri_file_" + str(idx) + ".h5",
+        scratch_dir=scratch,
     )
 
     energy_list = []
@@ -225,6 +221,7 @@ def mixed_basis_solver(
     indexing = []
     e_count = 0.0
     mybe.pot = [chempot] # Set chemical potential
+
     if skip_unnecessary_frag_build:
         for idxx in range(len(mybe.Fobjs)):
             tot_e, e_comp = be_func(
@@ -233,10 +230,10 @@ def mixed_basis_solver(
                 mybe.Nocc,
                 solver="CCSD",
                 enuc=mybe.enuc,
-                frag_energy=True,
                 eeval=True,
-                hf_veff=mybe.hf_veff,
                 only_chem=True,
+                scratch_dir=scratch,
+                solver_args=None,
             )
             energy_list.append(tot_e)
             ehf_list.append(mybe.Fobjs[idxx].ebe_hf)
@@ -251,10 +248,10 @@ def mixed_basis_solver(
                 mybe.Nocc,
                 solver="CCSD",
                 enuc=mybe.enuc,
-                frag_energy=True,
                 eeval=True,
-                hf_veff=mybe.hf_veff,
                 only_chem=True,
+                scratch_dir=scratch,
+                solver_args=None,
             )
             energy_list.append(tot_e)
             ehf_list.append(mybe.Fobjs[x].ebe_hf)
@@ -339,7 +336,7 @@ heavy_atom_ind = []
 for i in geom_lines:
     if i.split()[0][0] != "H":
         heavy_atom.append(i.split()[0])
-        heavy_atom_ind.append(int((re.split("(\d+)", i.split()[0]))[1]) - 1)
+        heavy_atom_ind.append(int((re.split("(\\d+)", i.split()[0]))[1]) - 1)
 log.debug("All Heavy Atoms and Indices: %s %s", heavy_atom, heavy_atom_ind)
 
 # Identify atoms which are not considered a "center" in a the big basis region scheme
@@ -355,45 +352,14 @@ Set up and run fragments in series or parallel
 
 def costfn(chempot = chempotopt, debug001=False):
     print("POT", chempot, flush=True)
-    energies = []
-    ehfs = []
-    enucs = []
-    elec_count = 0.0
-    if nprocs == 1:
-        for index, fragment in enumerate(au_frag):
-            energy, ehf, enuc_core_k, ect = mixed_basis_solver(
-                index,
-                fragment,
-                small_basis_inp,
-                big_basis_inp,
-                au_frag,
-                au_cen,
-                au_hlist,
-                au_add_centers,
-                big_basis_be_inp,
-                heavy_atom,
-                heavy_atom_ind,
-                additional_center,
-                geom_lines,
-                num_geom_file,
-                charge_inp,
-                mm_charges,
-                mm_coords,
-                chempot,
-            )
-            energies.append(energy)
-            ehfs.append(ehf)
-            enucs.append(enuc_core_k)
-            elec_count += ect
-    else:
-        pool_mix = Pool(nprocs)
-
-        results = []
-
-        for index, fragment in enumerate(au_frag):
-            result = pool_mix.apply_async(
-                mixed_basis_solver,
-                [
+    with WorkDir.from_environment(user_defined_root=mb_vars.scratch_path, cleanup_at_end=True) as scratch:
+        energies = []
+        ehfs = []
+        enucs = []
+        elec_count = 0.0
+        if nprocs == 1:
+            for index, fragment in enumerate(au_frag):
+                energy, ehf, enuc_core_k, ect = mixed_basis_solver(
                     index,
                     fragment,
                     small_basis_inp,
@@ -412,31 +378,65 @@ def costfn(chempot = chempotopt, debug001=False):
                     mm_charges,
                     mm_coords,
                     chempot,
-                ],
-            )
-            results.append(result)
+                    scratch,
+                )
+                energies.append(energy)
+                ehfs.append(ehf)
+                enucs.append(enuc_core_k)
+                elec_count += ect
+        else:
+            pool_mix = Pool(nprocs)
 
-        [energies.append(result.get()[0]) for result in results]
-        [ehfs.append(result.get()[1]) for result in results]
-        [enucs.append(result.get()[2]) for result in results]
-        elec_count = sum([result.get()[3] for result in results])
-        pool_mix.close()
+            results = []
 
-    log.note("Correlation Energies are... %s", energies)
-    log.note("HF (elec.)  Energies are... %s", ehfs)
-    print("Final e_corr: ", sum(sum(i) for i in energies))
-    assert np.all(
-        np.isclose(enucs, enucs[0])
-    ), "Nuclear+Core energies from different split basis BE fragments differ." + str(enucs)
-    print("HF Energy:    ", sum(sum(i) for i in ehfs) + enucs[0])
-    log.note("ecount %s; expected %s", elec_count, mol_small_basis.nelec[0])
+            for index, fragment in enumerate(au_frag):
+                result = pool_mix.apply_async(
+                    mixed_basis_solver,
+                    [
+                        index,
+                        fragment,
+                        small_basis_inp,
+                        big_basis_inp,
+                        au_frag,
+                        au_cen,
+                        au_hlist,
+                        au_add_centers,
+                        big_basis_be_inp,
+                        heavy_atom,
+                        heavy_atom_ind,
+                        additional_center,
+                        geom_lines,
+                        num_geom_file,
+                        charge_inp,
+                        mm_charges,
+                        mm_coords,
+                        chempot,
+                        scratch,
+                    ],
+                )
+                results.append(result)
 
-    return abs(elec_count - mol_small_basis.nelec[0])
+            [energies.append(result.get()[0]) for result in results]
+            [ehfs.append(result.get()[1]) for result in results]
+            [enucs.append(result.get()[2]) for result in results]
+            elec_count = sum([result.get()[3] for result in results])
+            pool_mix.close()
+
+        log.note("Correlation Energies are... %s", energies)
+        log.note("HF (elec.)  Energies are... %s", ehfs)
+        print("Final e_corr: ", sum(sum(i) for i in energies))
+        assert np.all(
+            np.isclose(enucs, enucs[0])
+        ), "Nuclear+Core energies from different split basis BE fragments differ." + str(enucs)
+        print("HF Energy:    ", sum(sum(i) for i in ehfs) + enucs[0])
+        log.note("ecount %s; expected %s", elec_count, mol_small_basis.nelec[0])
+
+        return abs(elec_count - mol_small_basis.nelec[0])
 
 
 if chempotopt: # optimize chem pot
     import scipy
     pot = 0.
     scipy.optimize.minimize(costfn, pot) # dumb optimizer
-else: 
+else:
     costfn([0.])
