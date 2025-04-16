@@ -24,7 +24,16 @@ estimation of the mixed HF energy, nuclear and core energies, and number of elec
 A crude chemical potential optimizer is added to optionally correct the number of
 electrons in the mixed calculations.
 
-TODO: further guide and documentation
-
-This work, nomenclature, and related results are given in the paper on arXiv: 
-Multiscale Embedding for Quantum Computing, arXiv:2409.06813
+# Citation
+Please see our publication that describes the BE(n)-in-BE(m) mixed-basis method: [10.1021/acs.jctc.5c00241](https://pubs.acs.org/doi/10.1021/acs.jctc.5c00241)
+```bibtex
+@article{10.1021/acs.jctc.5c00241,
+author = {Weisburn, Leah P. and Cho, Minsik and Bensberg, Moritz and Meitei, Oinam R. and Reiher, Markus and Van Voorhis, Troy},
+title = {Multiscale Embedding for Quantum Computing},
+year = {2025},
+journal = {Journal of Chemical Theory and Computation},
+website = {https://pubs.acs.org/doi/10.1021/acs.jctc.5c00241},
+doi = {10.1021/acs.jctc.5c00241},
+arxiv = {2409.06813},
+}
+```
